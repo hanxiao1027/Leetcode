@@ -1,0 +1,26 @@
+class Solution {
+    public int findCircleNum(int[][] M) {
+        if(M == null)return 0;
+        int rows = M.length;
+        int columns = M[0].length;
+        if(rows != columns) return 0;
+        int result = 0;
+        Set<Integer> hashset = new HashSet<>();
+        for(int i = 0; i < rows; i++){
+            if(hashset.contains(i)) continue;
+            result++;
+            hashset.add(i);
+            helper(M, i, hashset, rows);
+        }
+        return result;
+        
+    }
+    private void helper(int[][] M, int i, Set<Integer> hashset, int rows){
+        for(int j = 0; j < rows; j++){
+            if(M[i][j] == 1 && !hashset.contains(j)){ 
+                hashset.add(j);
+                helper(M, j, hashset, rows);
+            }
+        }
+    }
+}
