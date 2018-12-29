@@ -1,0 +1,25 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private int max = 0;
+    public int rob(TreeNode root) {
+        if(root == null) return max;
+        max = helper2(root);
+        return max;        
+    }
+    private int helper1(TreeNode node){  //不可抢
+        if(node == null) return 0;
+        return helper2(node.left) + helper2(node.right);
+    }
+    private int helper2(TreeNode node){ //可抢
+        if(node == null) return 0;
+        return Math.max(helper2(node.left) + helper2(node.right), node.val + helper1(node.left) + helper1(node.right));
+    }
+}
