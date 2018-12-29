@@ -1,0 +1,67 @@
+class Solution {
+    private int m, n;
+    
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int rest = 0;
+        int rest2 = 0;
+        m = nums1.length;
+        n = nums2.length;
+        
+        float result = 0;
+        rest = ( m + n ) / 2 + 1;
+        
+        int[] tt = new int[0];
+        if(m == n && m == 1)return (nums1[0] + nums2[0]) /2.0;
+        if(m == 0) {
+            if(n % 2 == 0){
+                return (nums2[n / 2] + nums2[n / 2 - 1]) / 2.0;
+            }
+            else{
+                return(nums2[n / 2]);
+            }
+        }
+        if(n == 0){
+            if(m % 2 == 0){
+                return (nums1[m / 2] + nums1[m / 2 - 1]) / 2.0;
+            }
+            else{
+                return(nums1[m / 2]);
+            }
+        }
+        if(( m + n ) % 2 == 1){
+            return helper(nums1, 0, nums2, 0, rest);
+        }
+        if(( m + n ) % 2 == 0){
+            rest2 = rest - 1;
+            //System.out.println(helper(nums1, 0, nums2, 0, rest2));
+           // System.out.println(helper(nums1, 0, nums2, 0, rest));
+            return (helper(nums1, 0, nums2, 0, rest) + helper(nums1, 0, nums2, 0, rest2)) / 2.0;
+        }
+        
+        return 0.0;
+    }
+    private int helper(int[] nums1, int i, int[] nums2, int j, int rest){
+        //System.out.println(rest);
+        if(i == m) return nums2[j + rest - 1];
+        if(j == n) return nums1[i + rest - 1];
+        if(rest == 1) return Math.min(nums1[i], nums2[j]);
+        
+        
+        int drop = rest / 2;
+        int nums1toCompare = i + drop - 1;
+        int nums2toCompare = j + drop - 1;
+        
+        if(m - i < drop) nums1toCompare = m - 1;
+        else if (n - j < drop) nums2toCompare = n - 1;
+        
+       // System.out.println("A"+nums1toCompare+"B"+nums2toCompare);
+        if(nums1[nums1toCompare] >= nums2[nums2toCompare]){
+            if(nums2toCompare == n-1) return helper(nums1, i, nums2, n, rest - (nums2toCompare - j + 1));
+            return helper(nums1, i, nums2, nums2toCompare+1, rest - (nums2toCompare - j + 1));
+        }
+        else {
+            if(nums1toCompare == m-1) return helper(nums1, m, nums2, j, rest - (nums1toCompare - i + 1));
+            return helper(nums1, nums1toCompare+1, nums2, j, rest - (nums1toCompare - i + 1));
+        }
+    }
+}
