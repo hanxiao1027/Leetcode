@@ -1,0 +1,52 @@
+class Solution {
+    
+    
+    
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if(!wordList.contains(endWord) || beginWord.equals(endWord))                 return 0;
+        if(isTrans(beginWord, endWord)) return 2;
+        int level = 1;
+        Queue<String> queue = new LinkedList<>();
+        Set<String> set = new HashSet<>();
+        queue.add(beginWord);
+        queue.add("newlevel");
+        
+        while(!queue.isEmpty()){
+            
+            String word = queue.poll();
+           // System.out.println("取出"+word);
+            if(word != "newlevel"){
+                if(isTrans(word, endWord)) return level+1;
+                for(String nextword: wordList){
+                    if(!set.contains(nextword)) {
+                    if(isTrans(word, nextword)){
+                        queue.add(nextword);
+                        set.add(nextword);
+                       //System.out.println(nextword);
+                    }
+                    }
+                }
+            }
+            else {
+                
+                level+=1;
+                //System.out.println(level);
+                if(!queue.isEmpty()) queue.add("newlevel");
+            
+                 }
+            
+        }
+        return 0;
+    }
+    
+    private boolean isTrans(String w1, String w2){
+        if(w1.length()!=w2.length()) return false;
+        int count = 0;
+        for(int i = 0; i < w1.length(); i++){
+            if(w1.charAt(i) != w2.charAt(i)){
+                count++;
+            }
+        }
+        return (count == 1);
+    }
+}
