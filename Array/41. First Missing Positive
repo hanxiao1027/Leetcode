@@ -1,3 +1,44 @@
+//原数组排序
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        if(nums.length == 0) return 1;
+        
+        for(int i = 0; i < nums.length; i++){
+            while(nums[i] < nums.length && nums[i] > 0 && nums[i] != i + 1 && nums[i] != nums[nums[i] - 1] //防止两个数一样 来回换){
+            // 如果这个数有用 就把它放到该放的位置
+                swap(nums, i, nums[i] - 1);
+            }
+        }
+        
+        for(int i = 0; i < nums.length; i++){
+          if(nums[i] != i + 1) return i + 1;
+        }
+        return nums.length + 1;
+    }
+    private void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+//额外空间桶排序
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        if(nums.length == 0) return 1;
+        int[] temp = new int[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] > 0 && nums[i] <= temp.length){
+                temp[nums[i] - 1] = nums[i];
+            }
+        }
+        
+        for(int i = 0; i < temp.length; i++){
+            if(temp[i] != i + 1) return i + 1;
+            if(i == temp.length - 1) return temp.length + 1;
+        }
+        return 1;
+    }
+//Hash 慢
 class Solution {
     public int firstMissingPositive(int[] nums) {
         Set<Integer> set = new HashSet<>();
