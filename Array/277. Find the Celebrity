@@ -1,0 +1,31 @@
+/* The knows API is defined in the parent class Relation.
+      boolean knows(int a, int b); */
+
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        Set<Integer> hashset = new HashSet<>();
+        for(int i = 0; i < n; i ++){
+            if(hashset.contains(i)) continue;
+            boolean flag = true;
+            for(int j = 0; j < n; j++){
+                if(i != j){
+                    if(knows(i, j)){
+                        flag = false;
+                        break;
+                    }
+                    else{
+                        hashset.add(j);
+                    }
+                }
+            }
+            if(flag){
+                for(int k = 0; k < n; k++){
+                    if(!knows(k, i)) return -1;
+                }
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+}
