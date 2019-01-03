@@ -1,0 +1,18 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length == 0) return 0;
+        int counter = 0;
+        Map<Integer, Integer> hashmap = new HashMap<>();
+        for(int i: nums){
+            if(!hashmap.containsKey(i)){
+                hashmap.put(i, 1);
+                nums[counter++] = i;
+            }
+            else if(hashmap.get(i) == 1){
+                hashmap.put(i, 2);
+                nums[counter++] = i;
+            }
+        }
+        return counter;
+    }
+}
