@@ -1,0 +1,17 @@
+class Solution {
+    public int hIndex(int[] citations) {
+        if(citations.length == 0) return 0;
+        int l = citations.length;
+        int lo = 0;
+        int hi = l - 1;
+        while(lo <= hi){
+            int mid = (lo + hi) / 2; 
+            if(citations[mid] == l - mid)
+                return l - mid;
+            if(citations[mid] < l - mid)
+                lo = mid + 1;
+            else hi = mid - 1;
+        }
+        return l - lo;
+    }
+}
