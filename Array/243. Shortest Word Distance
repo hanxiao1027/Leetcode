@@ -1,0 +1,23 @@
+//可能有多个词相同 取最小距离
+class Solution {
+    public int shortestDistance(String[] words, String word1, String word2) {
+        int counter1 = -1;
+        int counter2 = -1;
+        int result = words.length - 1;
+        for(int i = 0; i < words.length; i++){
+            if(words[i].equals(word1)){
+                counter1 = i;
+                if(counter2 >= 0){
+                    result = Math.min(result, Math.abs(counter1 - counter2));
+                }
+            }
+            else if(words[i].equals(word2)){
+                counter2 = i;
+                if(counter1 >= 0){
+                    result = Math.min(result, Math.abs(counter1 - counter2));
+                }
+            }
+        }
+        return result;
+    }
+}
