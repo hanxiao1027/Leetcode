@@ -1,0 +1,39 @@
+class Solution {
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        if(!word1.equals(word2)){
+            int counter1 = -1;
+            int counter2 = -1;
+            int result = words.length - 1;
+            for(int i = 0; i < words.length; i++){
+                if(words[i].equals(word1)){
+                    counter1 = i;
+                    if(counter2 >= 0){
+                        result = Math.min(result, Math.abs(counter1 - counter2));
+                    }
+                }
+                else if(words[i].equals(word2)){
+                    counter2 = i;
+                    if(counter1 >= 0){
+                        result = Math.min(result, Math.abs(counter1 - counter2));
+                    }
+                }
+            }
+            return result;
+        }
+        else{
+            List<Integer> position = new ArrayList<>();
+            for(int i = 0; i < words.length; i++){
+                if(words[i].equals(word1)){
+                    position.add(i);
+                }
+            }
+            int last = position.get(0);
+            int result = Integer.MAX_VALUE;
+            for(int j = 1; j < position.size(); j++){
+                result = Math.min(result, position.get(j) - last);
+                last = position.get(j);
+            }
+            return result;
+        }
+    }
+}
