@@ -1,0 +1,19 @@
+class Solution {
+    public int jump(int[] nums) {
+        
+        
+        int step = 0;
+        int next = 0;
+        int farest = 0;
+        for(int i = 0; i < nums.length - 1; i++){
+            farest = Math.max(i + nums[i], farest);//本位置最远到的距离
+            if(next == i){//下一步的起点
+                step++;
+                next = farest; // 这一步最远到的距离
+            }
+        }
+        return step;
+        
+        
+    }
+}
