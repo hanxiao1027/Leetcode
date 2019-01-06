@@ -1,0 +1,31 @@
+class Solution {
+    public List<Integer> pancakeSort(int[] A) {
+        List<Integer> result = new ArrayList<>();
+        int[] temp = A.clone();
+        Arrays.sort(temp);
+        for(int toset = A.length - 1; toset > 0; toset --){
+            for(int i = 0; i < A.length; i++){
+                if(A[i] == temp[toset]){
+                    if(i == toset){
+                        break;
+                    }
+                    else{
+                        result.add(i + 1);
+                        move(A, i);
+                        result.add(toset + 1);
+                        move(A, toset);
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+    private void move(int[] A, int k){
+        for(int i = 0; i < k/2; i++){
+            int temp = A[i];
+            A[i] = A[k/2];
+            A[k/2] = temp;
+        }
+    }
+}
