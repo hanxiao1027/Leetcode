@@ -1,0 +1,43 @@
+class Solution {
+    public List<Integer> powerfulIntegers(int x, int y, int bound) {
+        int i = 0, j = 0;
+        List<Integer> result = new ArrayList<>();
+        
+        while(Math.pow(x, i) + Math.pow(y, j) <= bound){
+            
+            while(Math.pow(x, i) + Math.pow(y, j) <= bound){
+                int temp = (int)(Math.pow(x, i) + Math.pow(y, j));
+                
+                if(temp <= bound) {
+                    result.add(temp);
+                    j++;
+                }
+                if(y == 1) break;
+                
+                
+            }
+            if(x == 1) break;
+            i++;
+            j = 0;
+            
+        }
+        //用set去重 更简便
+        Set<Integer> set = new HashSet<result>;
+        List<Integer> result2 = new ArrayList<Integer>(set);
+        //传统方法去重
+        /*Collections.sort(result);
+        List<Integer> result2 = new ArrayList<>();
+        for(int ii = 0; ii < result.size(); ii++){
+            if(ii == 0){
+                result2.add(result.get(ii));
+            }
+            else{
+                if(!result2.get(result2.size() - 1).equals(result.get(ii))){
+                    result2.add(result.get(ii));
+                }
+            }
+        }*/
+        return result2;
+       
+    }
+}
