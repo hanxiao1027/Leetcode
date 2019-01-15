@@ -1,0 +1,18 @@
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(1, n, k, new ArrayList<>(), result);
+        return result;
+    }
+    private void dfs(int start, int end, int size, List<Integer> current, List<List<Integer>> result){
+        if(current.size() == size){
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        for(int i = start; i <= end; i++){
+            current.add(i);
+            dfs(i + 1, end, size, current, result);
+            current.remove(current.size() - 1);
+        }
+    }
+}
