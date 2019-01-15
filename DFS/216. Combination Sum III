@@ -1,0 +1,19 @@
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(1, k, n, new ArrayList<>(), result);
+        return result;
+    }
+    private void dfs(int start, int size, int remain, List<Integer> current, List<List<Integer>> result){
+        if(remain == 0 && current.size() == size){
+            result.add(new ArrayList<>(current));
+        }
+        if(current.size() >= size) return;
+        for(int i = start; i <= 9; i++){
+            if(i > remain) return;
+            current.add(i);
+            dfs(i + 1, size, remain - i, current, result);
+            current.remove(current.size() - 1);
+        }
+    }
+}
