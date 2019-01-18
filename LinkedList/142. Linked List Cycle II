@@ -1,0 +1,28 @@
+//快慢指针
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+       if(head == null) return null;
+        ListNode slow, fast;
+        slow = head;
+        fast = head.next;
+        while(slow != null && fast != null){
+            if(slow == fast){//说明有环 开始找
+                while(head != slow.next){ //找起点的算法 有点难
+                    head = head.next;
+                    slow = slow.next;
+                }
+                return head;
+            }
+            slow = slow.next;
+            fast = fast.next;
+            if(fast == null) return null;
+            else fast = fast.next;
+        }
+        return null;
+        
+        
+        
+    }
+}
+
+//慢: HashSet
