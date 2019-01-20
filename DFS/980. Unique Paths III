@@ -1,0 +1,56 @@
+class Solution {
+    
+    private int count, obs;
+    int rows, columns;
+    int[][] flag;
+    public int uniquePathsIII(int[][] grid) {
+        rows = grid.length;
+        columns = grid[0].length;
+        flag= new int[rows][columns];
+        if(rows == 1){
+            //一行的时候
+            
+        }
+        int ii = 0, jj = 0;
+        obs = 0;
+        count = 0;
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if(grid[i][j] == 0){
+                    obs++;
+                }
+                if(grid[i][j] == 1){
+                    ii = i;
+                    jj = j;
+                }
+            }
+        }
+        dfs(grid, ii ,jj, -1);
+        return count;
+        
+    }
+    private void dfs(int[][] grid, int i, int j, int currobs){
+        if(i < 0 || j < 0 || i >= rows || j >= columns){
+            return;
+        }
+        System.out.println(grid[i][j] + "i"+ i +"j" + j + " " + flag);
+        if(grid[i][j] == -1 || flag[i][j] == 1){
+            //System.out.println("停止");
+        return;
+        }
+        
+        if(grid[i][j] == 2) {
+            if(obs == currobs){
+                count++;
+            return;
+            }
+            else return;
+        }
+        flag[i][j] = 1;
+        dfs(grid, i - 1, j, currobs + 1);
+        dfs(grid, i + 1, j, currobs + 1);
+        dfs(grid, i, j + 1, currobs + 1);
+        dfs(grid, i, j - 1, currobs + 1);
+        flag[i][j] = 0;
+    }
+}
