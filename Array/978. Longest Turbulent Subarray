@@ -1,0 +1,85 @@
+class Solution {
+    public int maxTurbulenceSize(int[] A) {
+        if(A.length == 1) return 1;
+        int maxlength = 1;
+        int length = 1;
+        int flag = 0;
+        for(int i = 1; i < A.length; i++ ){
+            if(flag ==0){//增
+                if(A[i] > A[i - 1]){
+                    length++;
+                    flag = 1;
+                    //System.out.println(A[i] + " " + length);
+                }
+                else if(A[i] == A[i - 1]){
+                    maxlength = Math.max(maxlength, length);
+                    length = 1;
+                    flag = 0;
+                }
+                else{
+                    maxlength = Math.max(maxlength, length);
+                    length = 1;
+                    flag = 0;
+                    
+                }
+            }
+            else{//减
+                if(A[i] < A[i - 1]){
+                    length++;
+                    flag = 0;
+                }
+                else if(A[i] == A[i - 1]){
+                    maxlength = Math.max(maxlength, length);
+                    length = 1;
+                    flag = 0;
+                }
+                else{
+                    maxlength = Math.max(maxlength, length);
+                    length = 2;
+                    flag = 1;
+                }
+            }
+        }
+        maxlength = Math.max(maxlength, length);
+        flag = 0;
+        length = 1;
+        for(int i = 1; i < A.length; i++ ){
+            if(flag == 1){//增
+                if(A[i] > A[i - 1]){
+                    length++;
+                    flag = 0;
+                    System.out.println(A[i] + " " + length);
+                }
+                else if(A[i] == A[i - 1]){
+                    maxlength = Math.max(maxlength, length);
+                    length = 1;
+                    flag = 0;
+                }
+                else{
+                    maxlength = Math.max(maxlength, length);
+                    length = 2;
+                    flag = 1;
+                }
+            }
+            else{//减
+                if(A[i] < A[i - 1]){
+                    length++;
+                    flag = 1;
+                    System.out.println(A[i] + " " + length);
+                }
+                else if(A[i] == A[i - 1]){
+                    maxlength = Math.max(maxlength, length);
+                    length = 1;
+                    flag = 0;
+                }
+                else{
+                    maxlength = Math.max(maxlength, length);
+                    length = 1;
+                    flag = 0;
+                }
+            }
+        }
+        return Math.max(maxlength, length);
+        
+    }
+}
