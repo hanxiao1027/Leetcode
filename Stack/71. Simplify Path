@@ -1,0 +1,22 @@
+class Solution {
+    public String simplifyPath(String path) {
+        Stack<String> stack = new Stack<>();
+        String result = "";
+        List<String> list = Arrays.asList("..", ".", "");
+        for(String str : path.split("/")){
+            if(str.equals("..")){
+                if(!stack.isEmpty()){
+                    stack.pop();
+                }
+            }
+            else if(!list.contains(str)){
+                stack.push(str);
+            }
+        }
+        while(!stack.isEmpty()){
+            result = "/" + stack.pop() + result;
+        }
+        if(result.length() == 0) result = "/";
+        return result;
+    }
+}
