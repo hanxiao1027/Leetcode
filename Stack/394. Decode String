@@ -1,0 +1,52 @@
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> multi = new Stack<>();
+        Stack<String> word = new Stack<>();
+        word.push("");
+        word.push("");
+        word.push("");
+        int i = 0;
+        while(i < s.length()){
+            
+            char curr = s.charAt(i);
+            if(curr <= '9' && curr >= '0'){
+                int start = i;
+                while(s.charAt(i) <= '9' && s.charAt(i) >= '0'){
+                    i++;
+                }
+                int mul = Integer.parseInt(s.substring(start, i));
+                
+                
+                multi.push(mul);
+            }
+            else if(curr == '['){
+                word.push("");
+                i++;
+            }
+            else if(curr == ']'){
+                int loops = multi.pop();
+                String temp = word.pop();
+                
+                String result = word.pop();
+                
+                for(int j = 0; j < loops; j++){
+                    result += temp;
+                   // System.out.println(result + "i" + i);
+                    
+                }
+                word.push(result);
+                i++;
+            }
+            else {
+                word.push(word.pop() + curr);
+                i++;
+            }
+        }
+        
+        String result = "";
+        while(!word.isEmpty()){
+            result = word.pop() + result;
+        }
+        return result;
+    }
+}
