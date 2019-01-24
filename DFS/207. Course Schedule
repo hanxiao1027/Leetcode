@@ -1,0 +1,36 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int remain = numCourses;
+        int[] require = new int[numCourses];
+        int[][] pre = new int[numCourses][numCourses];
+        Stack<Integer> taken = new Stack<>();
+        for(int i = 0; i < prerequisites.length; i++){
+            require[prerequisites[i][0]]++;
+        }
+        for(int i = 0; i < prerequisites.length; i++){
+            pre[prerequisites[i][1]][prerequisites[i][0]] = 1;
+        }
+        for(int i = 0; i < numCourses; i++){
+            if(require[i] == 0){
+                taken.push(i);
+                remain--;
+            }
+        }
+        while(!taken.isEmpty()){
+            int temp = taken.pop();
+            for(int i = 0; i < numCourses; i++){
+                if(pre[temp][i] == 1){
+                    require[i]--;
+                    if(require[i] == 0){
+                        //System.out.println(remain);
+                        taken.push(i);
+                        remain--;
+                    }
+                }
+            }
+        }
+        
+        return remain == 0;
+        
+    }
+}
