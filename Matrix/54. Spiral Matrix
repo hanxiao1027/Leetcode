@@ -1,0 +1,61 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int direction = 0;
+        int x = 0;
+        int y = 0;
+        int xlim = matrix.length;
+        int xlim0 = -1;
+        int ylim0 = -1;
+        int ylim;
+        List<Integer> result = new ArrayList<Integer>();
+        if(xlim!=0){ylim = matrix[0].length;
+        
+        while(true){
+            result.add(matrix[x][y]);
+            if(direction%4==0){
+                y++;
+                if(y==ylim){
+                    y--;
+                    x++;
+                    direction++;
+                    xlim0++;
+                }
+            }
+            else if(direction%4==1){
+                x++;
+                if(x==xlim){
+                    x--;
+                    y--;
+                    direction++;
+                    ylim--;
+                }
+                
+            }
+            else if(direction%4==2){
+                y--;
+                if(y==ylim0){
+                    y++;
+                    x--;                   
+                    direction++;
+                    xlim--;
+                }
+            }
+            else if(direction%4==3){
+                x--;
+                if(x==xlim0){
+                    x++;
+                    y++;
+                    direction++;
+                    ylim0++;
+                }
+               
+                
+            }
+            if(x==xlim0||x==xlim||y==ylim0||y==ylim){
+                break;
+            }
+        }}
+        return result;
+        
+    }
+}
