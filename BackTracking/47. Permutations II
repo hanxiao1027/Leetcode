@@ -1,0 +1,30 @@
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        Set<Integer> set = new HashSet<>();
+        dfs(result, new ArrayList<>(), nums, set);
+        return result;
+
+    }
+    private void dfs(List<List<Integer>> result, List<Integer> current, int[] nums, Set<Integer> set){
+        if(current.size() == nums.length){
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(set.contains(i)) continue;
+            if(i > 0 && nums[i] == nums[i - 1] && set.contains(i - 1)) continue;
+            //if(i == 0 || nums[i] != nums[i - 1]){
+                //System.out.println(current);
+                
+                current.add(nums[i]);
+                set.add(i);
+                dfs(result, current, nums, set);
+                set.remove(i);
+                current.remove(current.size() - 1);
+                
+           // }
+        }
+    }
+}
