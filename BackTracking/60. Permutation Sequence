@@ -1,0 +1,39 @@
+class Solution {
+    int th = 0;
+    String res;
+    public String getPermutation(int n, int k) {
+        int[] result = new int[n];
+        dfs(result, new ArrayList<>(), n, k);
+        res = "";
+        for(int ka: result){
+            res += ka;
+        }
+        return res;
+    }
+    private void dfs(int[] result, List<Integer> current, int limit, int target){
+        
+        
+        
+        if(th >= target) return;
+        if(current.size() == limit){
+            th++;
+            if(th == target){
+                
+                //System.out.println(result);
+                for(int i = 0; i < current.size(); i++){
+                    result[i] = current.get(i);
+                }
+                //System.out.println(result);
+            }
+            return;
+        }
+        for(int i = 1; i <= limit; i++){
+            if(current.contains(i)){
+                continue;
+            }
+            current.add(i);
+            dfs(result, current, limit, target);
+            current.remove(current.size() - 1);
+        }
+    }
+}
