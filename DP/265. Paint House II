@@ -1,0 +1,25 @@
+class Solution {
+    public int minCostII(int[][] costs) {
+        if(costs == null || costs.length == 0) return 0;
+        int result = Integer.MAX_VALUE;
+        int houses = costs.length; 
+        int colors = costs[0].length;
+        int[][] dp = new int[houses + 1][colors];
+        for(int i = 0; i < colors; i++){
+            dp[0][i] = 0; 
+        }
+        for(int i = 1; i <= houses; i++){ //i:第几个房子
+            for(int j = 0; j < colors; j++){ //j:第几个颜色
+                dp[i][j] = Integer.MAX_VALUE;
+                for(int k = 0; k < colors; k++){
+                    if(j != k || i == 1) dp[i][j] = Math.min(dp[i][j],dp[i - 1][k] + costs[i - 1][j]);//遍历所有的上一个房子是不同的颜色的结果
+                }
+            }
+        }
+        
+        for(int j = 0; j < colors; j++){
+            result = Math.min(result, dp[houses][j]);
+        }
+        return result;
+    }
+}
