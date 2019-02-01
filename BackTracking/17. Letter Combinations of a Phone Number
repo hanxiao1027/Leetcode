@@ -1,0 +1,30 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        char[] digi = digits.toCharArray();
+        List<List<String>> map = new ArrayList<>();
+        map.add(Arrays.asList("a", "b", "c"));
+        map.add(Arrays.asList("d", "e", "f"));
+        map.add(Arrays.asList("g", "h", "i"));
+        map.add(Arrays.asList("j", "k", "l"));
+        map.add(Arrays.asList("m", "n", "o"));
+        map.add(Arrays.asList("p", "q", "r", "s"));
+        map.add(Arrays.asList("t", "u", "v"));
+        map.add(Arrays.asList("w", "x", "y", "z"));
+        List<String> result = new ArrayList<>();
+        if(digits.length() == 0 || digits == null) return result;
+        dfs(result, "", digi, 0, map);
+        return result;
+    }
+    private void dfs(List<String> result, String current, char[] digi, int now, List<List<String>> map){
+        if(current.length() == digi.length){
+            result.add(current);
+            return;
+        }
+        if(now >= digi.length) return;
+        //System.out.println(digi);
+        for(int i = 0; i < map.get((int)(digi[now] - '2')).size(); i++){
+            String newcur = current + map.get(digi[now] - '2').get(i);
+            dfs(result, newcur, digi, now + 1, map);
+        }
+    }
+}
