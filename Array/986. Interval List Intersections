@@ -1,0 +1,46 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public Interval[] intervalIntersection(Interval[] A, Interval[] B) {
+        List<Interval> list = new ArrayList<>();
+        int i = 0, j = 0;
+        while(i < A.length && j < B.length){
+            Interval a = A[i], b = B[j];
+            if(a.end > b.end){
+                if(a.start <= b.end){
+                    list.add(new Interval(Math.max(a.start, b.start), b.end));
+                    j++;
+                }
+                else{
+                    j++;
+                }
+            }
+            else if(a.end < b.end){
+                if(b.start <= a.end){
+                    list.add(new Interval(Math.max(a.start, b.start), a.end));
+                    i++;
+                }
+                else{
+                    i++;
+                }
+            }
+            else{//a.end == b.end
+                list.add(new Interval(Math.max(a.start, b.start), a.end));
+                i++;
+                j++;
+            }
+        }
+        Interval[] result = new Interval[list.size()];
+        for(int ii = 0; ii < list.size(); ii++){
+            result[ii] = list.get(ii);
+        }
+        return result;
+    }
+}
