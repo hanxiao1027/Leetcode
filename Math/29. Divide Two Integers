@@ -1,0 +1,40 @@
+class Solution {
+    // public int divide(int dividend, int divisor) {
+    //     int i = (dividend > 0 && divisor > 0 || dividend<0 && divisor<0) ? 1 : -1;
+    //     long l = -1, l1 = Math.abs((long)dividend), l2 = Math.abs((long)divisor);
+    //     while(l1 >= 0){
+    //         l1-=l2;
+    //         l++;
+    //     }
+    //     if (i < 0) l = -l;
+    //     if (l > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+    //     return (int) l;
+    // }
+    
+   // public int divide(int dividend, int divisor) {
+    //     long l = (long)dividend/divisor;
+    //     if (l > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+    //     return (int) l;
+    // }
+	
+	public int divide(int dividend, int divisor) {
+        if (dividend == Integer.MIN_VALUE && divisor == -1) return Integer.MAX_VALUE;
+        if (Math.abs(divisor) == 1) {
+            if (divisor > 0) return dividend;
+            else return -dividend;
+        }
+        long l1 = Math.abs((long)dividend), l2 = Math.abs((long)divisor);
+        int sol = 0;
+        while(l1 >= l2){
+            long x = l2, y = 1;
+            while(l1 >= x){
+                l1-=x;
+                sol+=y;
+                y+=y;
+                x+=x;
+            }
+        }
+        if (dividend > 0 && divisor < 0 || dividend<0 && divisor>0) sol = -sol;
+        return sol;
+    }
+}
