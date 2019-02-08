@@ -1,0 +1,15 @@
+class Solution {
+    public int strStr(String haystack, String needle){
+        if(needle.equals("")) return 0;
+        char[] word = haystack.toCharArray();
+        char[] target = needle.toCharArray();
+        for(int i = 0; i <= word.length - target.length; i++){
+            for(int j = 0; j < target.length; j++){
+                if(word[i + j] != target[j]) break;
+                if(j == target.length - 1 && word[i + j] == target[j]) return i;
+            }
+        }
+        return -1;
+    
+    }
+}
