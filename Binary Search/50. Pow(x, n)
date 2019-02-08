@@ -4,6 +4,21 @@ class Solution {
         if(n == 0) return 1.0;
         return fastPow(x, n);
     }
+    //1.
+    private double fastPow(double x, int n){
+        if(n == 0) return 1.0;
+        if(n < 0){
+            x = 1 / x;
+            n *= -1;
+        }
+        if(n < 0) n = Integer.MAX_VALUE - 1;
+        double half = fastPow(x, n / 2);
+        if(n % 2 == 1){
+            return half * half * x;
+        }
+        else return half * half;
+    }
+    //2.
     private double fastPow(double x, int n){
         if(n == 0) return 1.0;
         if(n < 0){
