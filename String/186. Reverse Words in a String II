@@ -1,0 +1,27 @@
+class Solution {
+    public void reverseWords(char[] str) {
+        if(str == null || str.length == 0) return;
+        //reverse all
+        reverse(str, 0, str.length - 1);
+        //reverse each word
+        int start = 0; 
+        int end = 0;
+        while(start < str.length){
+            //System.out.println(start + " " + end);
+            if(end == str.length || str[end] == ' '){
+                reverse(str, start, end - 1);
+                start = end + 1;
+                end++;
+                if(end == str.length) break;
+            }
+            else end++;
+        }
+    }
+    private void reverse(char[] str, int start, int end){
+        while(start < end){
+            char temp = str[start];
+            str[start++] = str[end];
+            str[end--] = temp;
+        }
+    }
+}
