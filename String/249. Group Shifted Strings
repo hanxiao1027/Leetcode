@@ -1,0 +1,37 @@
+class Solution {
+    public List<List<String>> groupStrings(String[] strings) {
+        List<String> lead = new ArrayList<>();
+        List<List<String>> result = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for(String str : strings){
+            boolean isGrouped = false;
+            for(String ld : lead){
+                if(isShifted(ld, str)){
+                    int group = map.get(ld);
+                    result.get(group).add(str);
+                    isGrouped = true;
+                }
+            }
+            if(isGrouped) continue;
+            else{//新的pattern
+                lead.add(str);
+                map.put(str, lead.size() - 1);
+                result.add(new ArrayList<>(Arrays.asList(str)));
+            }
+        }
+        return result;
+    }
+    private boolean isShifted(String s1, String s2){
+        if(s1.length() != s2.length()) return false;
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        int deficit = c1[0] - c2[0];
+        for(int i = 1; i < s1.length(); i++){
+            char temp = (char)(c2[i] + deficit);
+            if(temp < 'a') temp += 26;
+            else if(temp > 'z') temp -= 26;
+            if(temp != c1[i]) return false;
+        }
+        return true;
+    }
+}
