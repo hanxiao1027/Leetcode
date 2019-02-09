@@ -1,0 +1,14 @@
+class Solution {
+    public List<String> generatePossibleNextMoves(String s) {
+        List<String> result = new ArrayList<>();
+        int i = 0;
+        while(i >= 0){
+            //System.out.println(i);
+            i = s.indexOf("++", i);//重要
+            if(i < 0) break;
+            result.add(s.substring(0, i) + "--" + s.substring(i + 2));
+            i++;
+        }
+        return result;
+    }
+}
