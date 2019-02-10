@@ -1,0 +1,27 @@
+class Solution {
+    public int brokenCalc(int X, int Y) {
+        System.out.println(X + " " + Y);
+        if(X == 0) return Integer.MAX_VALUE;
+        if(X >= Y) return X - Y;
+        if(X * 2 == Y) return 1;
+        if(X - 1 == Y) return 1;
+        int count = 0;
+        while(true){
+            if(X >= Y) return X - Y + count;
+            if(Y % 2 == 1){
+                count++;
+                Y++;
+            }
+            if(Y == X){
+                return count;
+            }
+            
+            Y = Y / 2;
+            count++;
+            if(Y == X){
+                return count;
+            }
+        }
+        
+    }
+}
