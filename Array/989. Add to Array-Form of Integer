@@ -1,0 +1,24 @@
+class Solution {
+    public List<Integer> addToArrayForm(int[] A, int K) {
+        List<Integer> result = new ArrayList<>();
+        int carry = 0;
+        for(int i = A.length - 1; i >= 0; i--){
+            int B = K % 10;
+            K /= 10;
+            int val = carry + A[i] + B;
+            carry = val / 10;
+            val = val % 10;
+            result.add(val);
+        }
+        while(K != 0){
+            int val = carry + K % 10;
+            K /= 10;
+            carry = val / 10;
+            val = val % 10;
+            result.add(val);
+        }
+        if(carry == 1) result.add(1);
+        Collections.reverse(result);
+        return result;
+    }
+}
