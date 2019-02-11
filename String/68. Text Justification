@@ -1,0 +1,64 @@
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result = new ArrayList<>();
+        int currLen = 0;
+        int wordsLen = 0;
+        int currWords = 0;
+        for(int i = 0; i < words.length; i++){
+            wordsLen += words[i].length();
+            currWords += 1;
+            currLen = wordsLen + currWords - 1;
+            if(i == words.length - 1 || currLen + 1 + words[i + 1].length() > maxWidth){
+                //当前生成一行
+                boolean isLast = (i == words.length - 1);
+                result.add(generateLine(words, i - currWords + 1, i,wordsLen,  maxWidth, isLast));
+                wordsLen = 0;
+                currWords = 0;
+                
+            }
+        }
+        return result;
+    }
+    private String generateLine(String[] words, int start, int end, int wordsLen, int width, boolean isLast){
+        if(isLast){
+            String res = "";
+            for(int i = start; i < end; i++){
+                res += words[i];
+                res += " ";
+            }
+            res += words[end];
+            while(res.length() < width){
+                res += " ";
+            }
+            return res;
+        }
+        String result = "";
+        int amount = end - start + 1;
+        int spaces = width - wordsLen;
+        int spacesAmount = amount - 1;
+        if(spacesAmount == 0){//only one word left
+            result += words[start];
+            while(result.length() < width){
+                result += " ";
+            }
+            return result;
+        }
+        int spaceWidth = width - wordsLen;
+        int eachSpace = spaceWidth / spacesAmount;
+        int additionalSpace = spaceWidth % spacesAmount;
+        String space = "";
+        for(int i = 0; i < eachSpace; i++){
+            space += " ";
+        }
+        
+        for(int i =  start; i < end; i++){
+            result = result + words[i] + space;
+            if(additionalSpace > 0){
+                result += " ";
+                additionalSpace --;
+            }
+        }
+        result += words[end];
+        return result;
+    }
+}
