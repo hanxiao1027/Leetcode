@@ -1,0 +1,41 @@
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        char[] c = s.toCharArray();
+        Set<Character> sset = new HashSet<>();
+        for(int i = 0; i < c.length; i++){
+            sset.add(c[i]);
+        }
+        StringBuilder sb = new StringBuilder();
+        Set<Character> taken = new HashSet<>(); //letter who is already taken
+        int letters = sset.size();//答案有多少个字母
+        int left = 0;//left margin
+        for(int i = 0; i < letters; i++){//每遍找一个
+            Set<Character> set = new HashSet<>();
+            int right = left;
+            for(int j = c.length - 1; j >= 0; j--){//从后往前找 找到能包括所有字母的位置 再再这个位置和开头之间 取一个最小的
+                if(taken.contains(c[j])) continue;
+                set.add(c[j]);
+                if(set.size() == letters - i){
+                    right = j;
+                    break;
+                }
+            }
+            //找到了位置区间 left 到 right 从中取一个最小的
+            System.out.println(left + " " + right);
+            int min = 26;
+            for(int k = left; k <= right; k++){
+                if(taken.contains(c[k])) continue;
+                if(c[k] < 'a' + min){
+                    min = (int) (c[k] - 'a');
+                    left = k + 1;
+                }
+                
+            }
+            sb.append((char)('a' + min));
+            taken.add((char)('a' + min));
+            
+            
+        }
+        return sb.toString();
+    }
+}
