@@ -1,0 +1,28 @@
+class Solution {
+    public List<String> generateAbbreviations(String word) {
+        List<String> result = new ArrayList<>();
+        char[] c = word.toCharArray();
+        helper(c, result, new StringBuilder(), 0, 0);
+        return result;
+    }
+    private void helper(char[] c, List<String> result, StringBuilder sb, int curr, int abbs){
+        System.out.println(curr);
+        if(curr >= c.length){
+            if(abbs != 0){
+                sb.append(abbs);
+                result.add(sb.toString());
+                
+                return;
+            }
+            else{
+                result.add(sb.toString());
+                return;
+            }
+        }
+        helper(c, result, new StringBuilder(sb), curr + 1, abbs + 1);
+        if(abbs > 0) sb.append(abbs);
+        sb.append(c[curr]);
+        helper(c, result, new StringBuilder(sb), curr + 1, 0);
+      
+    }
+}
