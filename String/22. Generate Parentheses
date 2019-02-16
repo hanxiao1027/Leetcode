@@ -1,0 +1,16 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        dfs(result, n, 0, 0, "");
+        return result;
+    }
+    private void dfs(List<String> result, int n, int l, int r, String current){
+        
+        if(l > n || r > n || r > l) return;
+        if(current.length() == 2 * n){
+            result.add(current);
+        }
+        dfs(result, n, l + 1, r, current + '(');
+        dfs(result, n, l, r + 1, current + ')');
+    }
+}
