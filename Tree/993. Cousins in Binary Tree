@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int xlv;
+    int ylv;
+    public boolean isCousins(TreeNode root, int x, int y) {
+        if(dfs(root, x, y, 0)) return false;
+        if(xlv == ylv) return true;
+        return false;
+    }
+    private boolean dfs(TreeNode node, int x, int y, int level){
+        if(node == null) return false;
+        if(node.val == x) xlv = level;
+        if(node.val == y) ylv = level;
+        if(node.left != null && node.right != null)
+        {if(node.left.val == x && node.right.val == y) return true;
+        if(node.left.val == y && node.right.val == x) return true;}
+        return dfs(node.left, x, y, level + 1) || dfs(node.right, x, y, level + 1);
+    }
+}
