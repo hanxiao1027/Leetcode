@@ -1,0 +1,42 @@
+class Solution {
+    int rows;
+    int columns;
+    public int orangesRotting(int[][] grid) {
+        rows = grid.length;
+        columns = grid[0].length;
+        int result = Integer.MIN_VALUE;
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if(grid[i][j] == 2){
+                    grid[i][j] = -1;
+                    bfs(grid, i, j, 3);
+                    grid[i][j] = 2;
+                }
+            }
+        }
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if(grid[i][j] > 0){
+                    if(grid[i][j] == 1) return -1;
+                    result = Math.max(result, grid[i][j]);
+                }
+            }
+        }
+        if(result == 2 || result == Integer.MIN_VALUE) return 0;
+        return result - 3;
+        
+    }
+    private void bfs(int[][] A, int i, int j, int val){
+        if(i < 0 || j < 0 || i >= rows || j >= columns || A[i][j] == 0 || A[i][j] == 2 || (A[i][j] > 1 && A[i][j] <= val)){
+            return;
+        }
+        if(A[i][j] != -1){
+            A[i][j] = val;
+        }
+        System.out.println(i + " " + j + " " + val);
+        bfs(A, i + 1, j, val + 1);
+        bfs(A, i - 1, j, val + 1);
+        bfs(A, i, j + 1, val + 1);
+        bfs(A, i, j - 1, val + 1);
+    }
+}
