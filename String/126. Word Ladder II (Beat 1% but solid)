@@ -1,0 +1,76 @@
+class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> result = new ArrayList<>();
+        Set<String> set = new HashSet<>();
+        Queue<helper> queue = new LinkedList<>();
+        queue.offer(new helper(beginWord, new ArrayList<>(Arrays.asList(beginWord))));
+        queue.offer(new helper("next"));
+        List<String> toSet = new ArrayList<>();
+        while(!queue.isEmpty()){
+            
+
+            helper temp = queue.poll();
+            if(temp.word == "next"){
+                if(queue.isEmpty() || result.size() > 0){
+                    break;
+                }
+                else{
+                    queue.offer(new helper("next"));
+                    for(String str : toSet){
+                    set.add(str);
+                }
+                    toSet = new ArrayList<>();
+                }
+            }
+            else{//word
+                List<String> curr = temp.list;
+                String wd = temp.word;
+                for(String str : wordList){
+                    if(set.contains(str)) continue;
+                    if(!isTrans(wd, str)) continue;
+                    //which means str is a trans word
+                    if(str.equals(endWord)){
+                      //  System.out.print("sadsa");
+                        curr.add(str);
+                        result.add(new ArrayList<>(curr));
+                        curr.remove(curr.size() - 1);
+                    }
+                    else{//is mid word
+                        //System.out.println(curr);
+                        curr.add(str);
+                        toSet.add(str);
+                        queue.offer(new helper(str, new ArrayList<>(curr)));
+                        curr.remove(curr.size() - 1);
+                    }
+                }
+                
+            }
+        }
+        return result;
+        
+    }
+    private boolean isTrans(String w1, String w2){
+        if(w1.length()!=w2.length()) return false;
+        int count = 0;
+        for(int i = 0; i < w1.length(); i++){
+            if(w1.charAt(i) != w2.charAt(i)){
+                count++;
+            }
+        }
+        return (count == 1);
+    }
+}
+
+class helper{
+    String word;
+    List<String> list;
+    
+    public helper(String word, List<String> list){
+        this.word = word;
+        this.list = list;
+    }
+    public helper(String word){
+        this.word = word;
+        this.list = null;
+    }
+}
