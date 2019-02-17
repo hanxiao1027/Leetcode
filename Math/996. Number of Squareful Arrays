@@ -1,0 +1,64 @@
+class Solution {
+    int result;
+    public int numSquarefulPerms(int[] A) {
+        result = 0;
+        Arrays.sort(A);
+        
+        Set<Integer> set = new HashSet<>();
+        dfs(A, new ArrayList<>(), Integer.MIN_VALUE, set);
+        //System.out.println(result.get(0));
+        return result;
+    }
+    private void dfs(int[] A, List<Integer> current, int last, Set<Integer> set){
+         //System.out.println(current);
+        if(current.size() == A.length) {
+           System.out.println(current);
+            result++;
+            return;
+            
+        }
+         
+        for(int i = 0; i < A.length; i++){
+            if(set.contains(i)) continue;
+            if(i > 0 && A[i] == A[i - 1] && set.contains(i - 1)) continue;
+            if(last == Integer.MIN_VALUE){//开头
+               
+                
+                current.add(A[i]);
+                set.add(i);
+                dfs(A, current, A[i], set);
+                current.remove(current.size() - 1);
+                set.remove(i);
+            }
+            else{//后续
+               // System.out.println(last + " "+ A[i]);
+                if(!isPerfectSquare(last + A[i])){
+                    continue;
+                }
+                else{
+                    set.add(i);
+                    current.add(A[i]);
+                    dfs(A, current, A[i], set);
+                    current.remove(current.size() - 1);
+                    set.remove(i);
+                }
+            }
+        }
+    }
+    public boolean isPerfectSquare(int num) {
+        if(num == 0) return true;
+        double x = (double) num;
+        int lo = 1, hi = num;
+        while(lo <= hi){
+            int mid = lo + (hi - lo) / 2;
+            if(mid > x / mid){
+                hi = mid - 1;
+            }
+            else if (mid < x / mid){
+                lo = mid + 1;
+            }
+            else return true;
+        }
+        return false;
+    }
+}
