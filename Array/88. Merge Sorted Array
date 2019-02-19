@@ -1,0 +1,25 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int[] result = new int[m + n];
+        int mm = 0, nn = 0;
+        while(mm < m && nn < n){
+            if(nums1[mm] <= nums2[nn]){
+                result[mm + nn] = nums1[mm++];
+            }
+            else{
+                result[mm + nn] = nums2[nn++];
+
+            }
+        }
+        while(mm < m){
+            result[nn + mm] = nums1[mm++];
+        }
+        while(nn < n){
+            result[nn + mm] = nums2[nn++];
+        }
+        for(int i = 0; i < result.length; i++){
+            nums1[i] = result[i];
+        }
+        
+    }
+}
