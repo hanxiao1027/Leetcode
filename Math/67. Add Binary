@@ -1,0 +1,37 @@
+class Solution {
+    public String addBinary(String a, String b) {
+        int len1 = a.length(), len2 = b.length();
+        int[] res = new int[Math.max(len1, len2) + 1];
+        int aa = len1 - 1, bb = len2 - 1;
+        int carry = 0;
+        while(aa >= 0 && bb >= 0){
+            int num1 = a.charAt(aa) - '0';
+            int num2 = b.charAt(bb) - '0';
+            res[Math.max(aa, bb) + 1] = (num1 + num2 + carry) % 2;
+            aa--;
+            bb--;
+            carry = (num1 + num2 + carry) / 2;
+            
+        }
+        while(aa >= 0){
+            int num = a.charAt(aa) - '0';
+            res[aa--  + 1] = (num + carry) % 2;
+            carry = (num + carry) / 2;
+        }
+        while(bb >= 0){
+            int num = b.charAt(bb) - '0';
+            res[bb-- + 1] = (num + carry) % 2;
+            carry = (num + carry) / 2;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        if(carry == 1){
+            sb.append(1);
+        }
+        for(int i = 1; i < res.length; i++){
+            sb.append(res[i]);
+        }
+        return sb.toString();
+        
+    }
+}
