@@ -1,0 +1,42 @@
+class Solution {
+    public int calPoints(String[] ops) {
+        if(ops == null || ops.length == 0) return 0;
+        int result = 0;
+        Stack<Integer> stack = new Stack<>();
+        for(int i = 0; i < ops.length; i++){
+            String cur = ops[i];
+            if(cur.equals("C")){
+                if(!stack.isEmpty()){
+                    result -= stack.pop();
+                }
+            }
+            else if(cur.equals("D")){
+                int thisRound = 0;
+                if(!stack.isEmpty()){
+                    thisRound = 2 * stack.peek();
+                }
+                stack.push(thisRound);
+                result += thisRound;
+                
+            }
+            else if(cur.equals("+")){
+                int thisRound = 0;
+                if(!stack.isEmpty()){
+                    int first = stack.pop();
+                    thisRound = first + stack.peek();
+                    stack.push(first);
+                }
+                stack.push(thisRound);
+                result += thisRound;
+            }
+            else{
+                
+                int thisRound = Integer.parseInt(cur);
+                result += thisRound;
+                stack.push(thisRound);
+            }
+            //System.out.println(result);
+        }
+        return result;
+    }
+}
