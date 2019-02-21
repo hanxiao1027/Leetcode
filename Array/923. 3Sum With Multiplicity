@@ -1,0 +1,62 @@
+class Solution {
+  
+    public int threeSumMulti(int[] A, int target) {
+        if(A == null || A.length == 0) return 0;
+        int mod = 1000000007;
+     /*   if(A[0] == A[A.length - 1]){
+            if(target != 3 * A[0]) return 0;
+            long res = 0;
+            int amount = A.length;
+            return (int)res % mod;
+        }*/
+        
+        Arrays.sort(A);
+        long count = 0;
+        int last = 0;
+        for(int i = 0; i < A.length - 2; i++){
+            if(i > 0 && A[i] == A[i] - 1){
+                count += last;
+                continue;
+            }
+            int left = i + 1, right = A.length - 1;
+            int remain = target - A[i];
+            while(left < right){
+                int sum = A[left] + A[right];
+                if(sum > remain){
+                    right--;
+                }
+                else if(sum < remain){
+                    left++;
+                }
+                else{//find amount of left and right
+                    if(A[left] == A[right]){
+                        int amount = right - left + 1;
+                        int combinations = 0;
+                        while(amount > 1){
+                            combinations += --amount;
+                        }
+                        count += combinations;
+                        break;
+                    }
+                    else{
+                        left++;
+                        right--;
+                        int lefts = 1, rights = 1;
+                        while(A[left] == A[left - 1]){
+                            left++;
+                            lefts++;
+                        }
+                        while(A[right] == A[right + 1]){
+                            right--;
+                            rights++;
+                        }
+                        last = lefts * rights;
+                        count += last;
+                    }
+                }
+            }
+            
+        }
+        return (int)(count % mod);
+    }
+}
