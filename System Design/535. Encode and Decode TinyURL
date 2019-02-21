@@ -1,0 +1,33 @@
+public class Codec {
+    String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    int count = 1;
+    Map<String, String> map = new HashMap<>();
+    
+    private String getCypher(){
+        String res = "";
+        int temp = count;
+        while(temp > 0){
+            temp -= 1;
+            res += chars.charAt(count % 62);
+            temp /= 62;
+        }
+        return res;
+    }
+
+    // Encodes a URL to a shortened URL.
+    public String encode(String longUrl) {
+        String code = getCypher();
+        map.put(code, longUrl);
+        count++;
+        return "http://tinyurl.com/" + code;
+    }
+
+    // Decodes a shortened URL to its original URL.
+    public String decode(String shortUrl) {
+        return map.get(shortUrl.replace("http://tinyurl.com/", ""));
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.decode(codec.encode(url));
