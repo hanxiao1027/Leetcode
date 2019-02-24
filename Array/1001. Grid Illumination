@@ -1,0 +1,38 @@
+class Solution {
+    public int[] gridIllumination(int N, int[][] lamps, int[][] queries) {
+        int[] result = new int[queries.length];
+        for(int i = 0; i < queries.length; i++){
+            int i1 = queries[i][0];
+            int j1 = queries[i][1];
+            for(int ii = 0; ii < lamps.length; ii++){
+                if(lamps[ii][0] < 0) continue;
+                int i0 = lamps[ii][0];
+                int j0 = lamps[ii][1];
+                if(isIllu(i0, j0, i1, j1)){
+                    result[i] = 1;
+                    break;
+                }
+            }
+            for(int ii = 0; ii < lamps.length; ii++){
+                if(lamps[ii][0] < 0) continue;
+                int i0 = lamps[ii][0];
+                int j0 = lamps[ii][1];
+                if(isAdj(i0, j0, i1, j1)){
+                    lamps[ii][0] = -1;
+                  //  System.out.println(i0 + "关" + j0);
+                }
+            }
+        }
+        return result;
+        
+    }
+    private boolean isIllu(int i0, int j0, int i1, int j1){
+        if(i0 == i1 || j0 == j1) return true;
+        if(Math.abs(i0 - i1) == Math.abs(j0 - j1)) return true;
+        return false;
+    }
+    private boolean isAdj(int i0, int j0, int i1, int j1){
+        if(Math.max(Math.abs(i0 - i1), Math.abs(j0 - j1)) == 1) return true;
+        return false;
+    }
+}
