@@ -1,0 +1,69 @@
+class Solution {
+    public int numRookCaptures(char[][] board) {
+        int count = 0;
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == 'R'){
+                    int ii = i - 1;
+                    while(ii >= 0){
+                        if(board[ii][j] == '.'  ){
+                            ii--;
+                        }
+                        else if(board[ii][j] == 'p'){
+                            count++;
+                            break;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    
+                    ii = i + 1;
+                    while(ii < board.length){
+                        if(board[ii][j] == '.'){
+                            ii++;
+                        }
+                        else if(board[ii][j] == 'p'){
+                            count++;
+                            break;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    
+                    int jj = j - 1;
+                    while(jj >= 0){
+                        if(board[i][jj] == '.'){
+                            jj--;
+                        }
+                        else if(board[i][jj] == 'p'){
+                            count++;
+                            break;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    
+                    jj = j + 1;
+                    while(jj < board[0].length){
+                        if(board[i][jj] == '.'){
+                            jj++;
+                        }
+                        else if(board[i][jj] == 'p'){
+                            count++;
+                            break;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                   
+                    return count;
+                }
+            }
+        }
+        return 0;
+    }
+}
