@@ -1,0 +1,20 @@
+class Solution {
+    public int findJudge(int N, int[][] trust) {
+        int[] t = new int[N];
+        int[] ted = new int[N];
+        for(int i = 0; i < trust.length; i++){
+            t[trust[i][0] - 1]++;
+            ted[trust[i][1] - 1]++;
+        }
+        int count = 0;
+        int result = -1;
+        for(int i = 0; i < N; i++){
+            if(count > 1) return -1;
+            if(t[i] == 0 && ted[i] == N - 1) {
+                count++;
+                result = i + 1;
+            }
+        }
+        return result;
+    }
+}
