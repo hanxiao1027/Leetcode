@@ -1,0 +1,63 @@
+class Solution {
+    int rows;
+    int cols;
+    int[] dir1;
+    int[] dir2;
+    public int shortestBridge(int[][] A) {
+        dir1 = new int[]{-1, 1, 0, 0};
+        dir2 = new int[]{0, 0, -1 ,1};
+        if(A == null || A.length == 0) return 0;
+        rows = A.length;
+        cols = A[0].length;
+        boolean done = false;
+        for(int i = 0; i < rows; i++){
+            if(done) break;
+            for(int j = 0; j < cols; j++){
+                if(done) break;
+                if(A[i][j] == 1){
+                    modIsland(A, i, j);
+                    done = true;
+                }
+            }
+        }
+        int island = 2;
+        for(int t = 0; ; t++){
+            for(int i = 0; i < rows; i++){
+                for(int j = 0; j < cols; j++){
+                    if(A[i][j] == island){               
+                     //   System.out.println(i+" "+j+" "+island);
+                        if(buildBridge(A, i, j, island)) return t;
+                       // System.out.println(buildBridge(A, i, j, island));
+                    }
+                }
+            }
+            island++;
+        }
+    }
+    private void modIsland(int[][] A, int i, int j){
+       // System.out.println(i + " " + j);
+        if(i < 0 || j < 0 || i >= rows|| j >= cols) return;
+        if(A[i][j] == 2 || A[i][j] == 0) return;
+        A[i][j] = 2;
+        modIsland(A, i + 1, j);
+        modIsland(A, i - 1, j);
+
+        modIsland(A, i, j + 1);
+
+        modIsland(A, i, j - 1);
+
+    }
+    private boolean buildBridge(int[][] A, int i, int j, int island){
+        //System.out.println("sad");
+        for(int k = 0; k < 4; k++){
+            int ii = i + dir1[k];
+            int jj = j + dir2[k];
+            if(ii < 0 || jj < 0 || ii >= rows|| jj >= cols){
+                continue;
+            }
+            if(A[ii][jj] == 1) return true;
+            if(A[ii][jj] == 0) A[ii][jj] = island + 1;
+        }
+        return false;
+    }
+}
