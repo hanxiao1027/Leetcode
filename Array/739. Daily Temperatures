@@ -1,0 +1,43 @@
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        Stack<Integer> stack = new Stack<>();
+        int[] result = new int[T.length];
+        for(int i = T.length - 1; i >= 0; i--){
+            makeStack(stack, T, i);
+            result[i] = getNext(stack, T, i);
+           
+        }
+        return result;
+    }
+    private void makeStack(Stack<Integer> stack, int[] T, int i){
+        Stack<Integer> temp = new Stack<Integer>();
+        if(stack.isEmpty()){
+            stack.push(i);
+            return;
+        }
+        while(!stack.isEmpty() && T[stack.peek()] > T[i]){
+            temp.push(stack.pop());
+        }
+        while(!stack.isEmpty()){
+            stack.pop();
+        }
+        stack.push(i);
+        while(!temp.isEmpty()){
+            stack.push(temp.pop());
+        }
+    }
+    private int getNext(Stack<Integer> stack, int[] T, int i){
+        int result;
+        Stack<Integer> temp = new Stack<Integer>();
+        while(T[stack.peek()] > T[i]){
+            temp.push(stack.pop());
+        }
+        if(temp.isEmpty()) result = 0;
+        else result = temp.peek() - i;
+        
+        while(!temp.isEmpty()){
+            stack.push(temp.pop());
+        }
+        return result;
+    }
+}
