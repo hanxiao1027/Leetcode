@@ -18,15 +18,16 @@ class Solution {
         Arrays.sort(starts);
         Arrays.sort(ends);
         List<Interval> result = new ArrayList<>();
+        //leftstart是区间start的index,rightend是区间end的index, left是最终区间左边界, right是最终又边界
         int leftstart = 0;
         while(leftstart < starts.length){
             int left = starts[leftstart];
-            int rightstart = leftstart;
-            while(leftstart + 1 < starts.length && starts[leftstart + 1] <= ends[rightstart]){
+            int rightend = leftstart;
+            while(leftstart + 1 < starts.length && starts[leftstart + 1] <= ends[rightend]){
                 leftstart++;
-                rightstart++;
+                rightend++;
             }
-            int right = ends[rightstart];
+            int right = ends[rightend];
             //System.out.println(left + " " + right);
             result.add(new Interval(left, right));
             leftstart++;
