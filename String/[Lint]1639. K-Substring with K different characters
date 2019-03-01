@@ -1,0 +1,42 @@
+public class Solution {
+    /**
+     * @param stringIn: The original string.
+     * @param K: The length of substrings.
+     * @return: return the count of substring of length K and exactly K distinct characters.
+     */
+    public int KSubstring(String stringIn, int K) {
+        // Write your code here
+        Map<Character, Integer> map = new HashMap<>();
+        Set<String> taken = new HashSet<>();
+        char[] c = stringIn.toCharArray();
+        if(K > c.length) return 0;
+        for(int i = 0; i < K; i++){
+            map.put(c[i], map.getOrDefault(c[i],0) + 1);
+        }
+        int result = 0;
+        int start = 0;
+        int end = K - 1;
+        if(map.size() == K) result++;
+        
+        while(end + 1 < c.length){
+            int leftAfterRemove = map.get(c[start]) - 1;
+            if(leftAfterRemove == 0){
+                map.remove(c[start]);
+            }
+            else{
+                map.put(c[start], leftAfterRemove);
+            }
+            start++;
+            end++;
+            int rightAfterAdd = map.getOrDefault(c[end], 0);
+            map.put(c[end], rightAfterAdd + 1);
+            if(taken.contains(stringIn.substring(start, end + 1))) continue;
+
+            if(map.size() == K) {
+                taken.add(stringIn.substring(start, end + 1));
+                result++;}
+
+        }
+        return result;
+    }
+}
