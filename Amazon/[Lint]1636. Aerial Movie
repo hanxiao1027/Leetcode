@@ -1,0 +1,38 @@
+public class Solution {
+    /**
+     * @param t: the length of the flight
+     * @param dur: the length of movies 
+     * @return: output the lengths of two movies
+     */
+    public int[] aerial_Movie(int t, int[] dur) {
+        // Write your code here
+        int target = t - 30;
+        int left = 0;
+        int right = dur.length - 1;
+        Arrays.sort(dur);
+        int max = 0;
+        int[] result = new int[2];
+        while(left < right){
+            int sum = dur[left] + dur[right];
+            if(sum > target){
+                right--;
+                continue;
+            }
+            else{
+                if(sum > max){
+                  result[0] = dur[left];
+                  result[1] = dur[right];
+                  max = sum;
+                }
+                else if(sum == max){
+                    if(result[1] < dur[right]){
+                        result[0] = dur[left];
+                        result[1] = dur[right];
+                    }
+                }
+                left++;
+            }
+        }
+        return result;
+    }
+}
