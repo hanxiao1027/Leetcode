@@ -1,0 +1,101 @@
+public class Solution {
+    /**
+     * @param numbers: the given list
+     * @param node1: the given node1
+     * @param node2: the given node2
+     * @return: the distance between two nodes
+     */
+    class Node{
+        int val;
+        Node left;
+        Node right;
+        public Node(int val){
+            this.val = val;
+            this.left = null;
+            this.right = null;
+        }
+    }
+    class helper{
+        int val;
+        int dis;
+        public helper(int val, int dis){
+            this.val = val;
+            this.dis = dis;
+        }
+    }
+    private int n1, n2;
+    private int result = -1;
+    public int bstDistance(int[] numbers, int node1, int node2) {
+        // Write your code here
+        if(numbers == null || numbers.length == 0) return -1;
+        int start = 0;
+        int end = numbers.length - 1;
+        Node root = new Node(numbers[0]);
+        for(int i = 1; i < numbers.length; i++){
+            makeBST(root, numbers[i]);
+        }
+        n1 = node1;
+        n2 = node2;
+        findPath(root);
+        return result;
+        
+    }
+    private helper findPath(Node node){
+        if(result != -1) return null;
+        if(node == null) return null;
+        helper left = findPath(node.left);
+        helper right = findPath(node.right);
+        
+        if(node.val == n1 || node.val == n2){
+            int other = n1 + n2 - node.val;
+            if(left != null && left.val == other){
+                result = left.dis;
+                return null;
+            }
+            if(right != null && right.val == other){
+                result = right.dis;
+                return null;
+            }
+            else{
+                return new helper(node.val, 1);
+            }
+            
+        }
+        else{//node既不是n1也不是n2
+            if(right != null && left != null){//是公共父节点
+                result = left.dis + right.dis;
+                return null;
+            }
+            if(left != null){
+                return new helper(left.val, left.dis + 1);
+            }
+            if(right != null){
+                return new helper(right.val, right.dis + 1);
+            }
+            //啥都没有
+            return null;
+        }
+        
+        
+        
+    }
+    private void makeBST(Node node, int val){
+        if(val == node.val) return;
+        if(val > node.val){
+            if(node.right == null){
+                node.right = new Node(val);
+            }
+            else{
+                makeBST(node.right, val);
+            }
+        }
+        else{//val < node.val
+            if(node.left == null){
+                node.left = new Node(val);
+            }
+            else{
+                makeBST(node.left, val);
+            }
+        }
+    }
+}
