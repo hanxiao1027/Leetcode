@@ -1,0 +1,59 @@
+public class Solution {
+    /**
+     * @param a: the first list
+     * @param b: the second list
+     * @param x: the max sum
+     * @return: the pairs whose sum are not exceed x
+     */
+     class pair{
+         int p1;
+         int p2;
+         public pair(int p1, int p2){
+             this.p1 = p1;
+             this.p2 = p2;
+         }
+     }
+    public int[][] getAns(int[] a, int[] b, int x) {
+        // Write your code here.
+        int max = Integer.MIN_VALUE;
+        List<pair> pairs = new ArrayList<>();
+        int alen = a.length;
+        int blen = b.length;
+        Arrays.sort(a);
+        Arrays.sort(b);
+        for(int i = 0; i < alen; i++){
+            int remain = x - a[i];
+            int bMax = search(0, blen - 1, remain, b);
+            if(bMax > remain) continue;
+            if(a[i] + bMax > max){
+                max = a[i] + bMax;
+                pairs = new ArrayList<>();
+                pairs.add(new pair(a[i], bMax));
+            }
+            else if(a[i] + bMax == max){
+                pairs.add(new pair(a[i], bMax));
+            }
+        }
+        int[][] result = new int[pairs.size()][2];
+        int i = 0;
+        for(pair pair : pairs){
+            result[i][0] = pair.p1;
+            result[i++][1] = pair.p2;
+        }
+        return result;
+    }
+    private int search(int start, int end, int max, int[] b){
+        if(start + 1 == end){
+            if(b[end] <= max) return b[end];
+            else return b[start];
+        }
+        int mid = start + (end - start) / 2;
+        int val = b[mid];
+        if(val > max){
+            return search(start, mid, max, b);
+        }
+        else{
+            return search(mid, end, max, b);
+        }
+    }
+}
