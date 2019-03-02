@@ -1,0 +1,31 @@
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        String paragraph1 = paragraph.replace(",", " ");
+        String[] words = paragraph1.split(" ", -1);
+        Set<String> set = new HashSet<>(Arrays.asList(banned));
+        Map<String, Integer> map = new HashMap<>();
+        int max = 0;
+        String result = "";
+        for(String Word : words){
+            String word = Word.toLowerCase();
+            word = removeCom(word);
+            if(word.equals("")) continue;
+            if(set.contains(word)) continue;
+            
+            int count = map.getOrDefault(word, 0) + 1;
+            if(count > max){
+                max = count;
+                result = word;
+            }
+            map.put(word, count);
+        }
+        return result;
+    }
+    private String removeCom(String str){
+        if(str.length() <2) return str; 
+        if(str.charAt(str.length() - 1) <  'a' || str.charAt(str.length() - 1) > 'z' ){
+            return str.substring(0, str.length() - 1);
+        }
+        return str;
+    }
+}
