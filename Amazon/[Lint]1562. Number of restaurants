@@ -1,0 +1,35 @@
+public class Solution {
+    /**
+     * @param restaurant: 
+     * @param n: 
+     * @return: nothing
+     */
+    public List<List<Integer>> nearestRestaurant(List<List<Integer>> restaurant, int n) {
+        // Write your code here
+        List<List<Integer>> result = new ArrayList<>();
+        if(n == 0 || restaurant.size() == 0 || n > restaurant.size()) return result; 
+       // if(n == restaurant.size()) return restaurant;
+        
+        List<Integer> dsts = new ArrayList<>();
+        
+        Map<Integer, Integer> map2 = new HashMap<>();
+        for(int i = 0; i < restaurant.size(); i++){
+            List<Integer> rest = restaurant.get(i);
+            int x = rest.get(0);
+            int y = rest.get(1);
+            int distance = x * x + y * y;
+            
+            map2.put(i, distance);
+            dsts.add(distance);
+        }
+        Collections.sort(dsts);
+        int limit = dsts.get(n - 1);
+        for(int i = 0; i < restaurant.size(); i++){
+            int distance = map2.get(i);
+            if(distance <= limit){
+                result.add(new ArrayList<>(restaurant.get(i)));
+            }
+        }
+        return result;
+    }
+}
