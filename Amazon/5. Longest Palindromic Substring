@@ -1,3 +1,50 @@
+//my sol
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s == null || s.length() <= 1) return s;
+        if(s.length() == 2){
+            if(s.charAt(0) == s.charAt(1)) return s;
+            else return s.substring(0, 1);
+        }
+        int l = 0;
+        int r = 0;
+        int[] res = new int[2];
+        int ll = 0;
+        int rr = 0;
+        while(r < s.length() && l < s.length()){
+            char c = s.charAt(l);
+            while(s.charAt(r) == c && r < s.length() - 1){
+                r++;
+            }
+            if(r == s.length()  || s.charAt(r) != c){
+                r--;
+            }
+            //System.out.println(l + " " + r);
+            expand(s, l, r, res);
+            l = r + 1;
+            r = l;
+            if(res[1] - res[0] > rr - ll){//new answer
+                ll = res[0];
+                rr = res[1];
+            }
+        }
+        return s.substring(ll, rr + 1);
+    }
+    private void expand(String s, int l, int r, int[] res){
+        while(l > 0 && r < s.length() - 1 && s.charAt(l) == s.charAt(r)){
+            l--;
+            r++;
+        }
+        if(s.charAt(l) != s.charAt(r)){
+            l++;
+            r--;
+        }
+        res[0] = l;
+        res[1] = r;
+    }
+}
+
+//from leetcode
 class Solution {
 	public String longestPalindrome( String s ) {
 		if (s == null)
