@@ -1,0 +1,12 @@
+class Solution {
+    public boolean isValid(String S) {
+       // System.out.println(S);
+        int len = S.length();
+        if(S.length() == 0 || S.equals("abc")){
+            return true;
+        }
+        if(S.indexOf("abc") == -1) return false;
+        if(S.length() == 3) return false;
+        return isValid(S.replace("abc", ""));
+    }
+}
