@@ -1,0 +1,93 @@
+public class Solution {
+    /**
+     * @param fa: the father
+     * @param val: the val
+     * @return: the biggest node
+     */
+     class Node{
+         int val;
+         List<Node> list;
+         public Node(int val){
+             this.val = val;
+             list = new ArrayList<>();
+         }
+     }
+     class helper{
+         int val;
+         int nodes;
+         public helper(int val, int nodes){
+             this.val = val;
+             this.nodes = nodes;
+         }
+     }
+    
+    double max;
+    Node result;
+    public int treeProblem(int[] fa, int[] val) {
+        // Write your code here
+        max = (double)Integer.MIN_VALUE;
+        
+        Map<Integer, Node> map = new HashMap<>();
+        Map<Node, Integer> map2 = new HashMap<>();
+        Node root = new Node(val[0]);
+        map.put(1, root);
+        map2.put(root, 1);
+        List<Integer> waitList = new ArrayList<>();
+        for(int i = 1; i < val.length; i++){
+            int num = i + 1;
+            int father = fa[i];
+            if(!map.containsKey(father)) {
+                waitList.add(i);
+                continue;
+            }
+
+            Node temp = new Node(val[i]);
+            map.put(num, temp);
+            map2.put(temp, num);
+            Node fatherNode = map.get(father);
+            fatherNode.list.add(temp);
+        }
+        while(waitList.size() > 0){
+            for(int k = 0; k < waitList.size(); k++){
+                int i = waitList.get(k);
+                int num = i + 1;
+                int father = fa[i];
+                if(!map.containsKey(father)) {
+                    continue;
+                }
+    
+                Node temp = new Node(val[i]);
+                map.put(num, temp);
+                map2.put(temp, num);
+                Node fatherNode = map.get(father);
+                fatherNode.list.add(temp);
+                waitList.remove(k);
+            }
+        }
+        result = root;
+        helper no = dfs(root);
+        return map2.get(result);
+    }
+    private helper dfs(Node node){
+        if(node.list.size() == 0) {
+            if(node.val > max) {
+                max = node.val;
+                result = node;
+            }
+            return new helper(node.val, 1);
+        }
+        int allValue = node.val;
+        int allCount = 1;
+        for(Node son : node.list){
+            allValue += dfs(son).val;
+            allCount += dfs(son).nodes;
+        }
+        double mean = (double)allValue / (double) allCount;
+        if(mean > max){
+            max = mean;
+            result = node;
+        }
+        return new helper(allValue, allCount);
+        
+    }
+}
