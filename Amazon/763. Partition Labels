@@ -1,0 +1,29 @@
+class Solution {
+    public List<Integer> partitionLabels(String S) {
+        List<Integer> result = new ArrayList<>();
+        char[] c = S.toCharArray();
+        Map<Character, Integer> map = new HashMap<>();
+        for(int i = c.length - 1; i >= 0; i--){
+            if(map.containsKey(c[i])){
+                continue;
+            }
+            map.put(c[i], i);
+        }
+        int pointer = 0;
+        int start = 0;
+        int end = map.get(c[0]);
+        while(pointer < c.length){
+            while(pointer <= end){
+                end = Math.max(end, map.get(c[pointer]));
+                pointer++;
+            }
+            
+            result.add(end - start + 1);
+            pointer = end + 1;
+            if(pointer == c.length) break;
+            start = pointer;
+            end = map.get(c[start]);
+        }
+        return result;
+    }
+}
