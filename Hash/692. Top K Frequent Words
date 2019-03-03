@@ -1,0 +1,22 @@
+class Solution {
+    public List<String> topKFrequent(String[] words, int k) {
+        Map<String, Integer> map = new HashMap<>();
+        for(String word : words){
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<Map.Entry<String, Integer>>((l1, l2) -> l1.getValue() == l2.getValue()? l2.getKey().compareTo(l1.getKey()) : l1.getValue() - l2.getValue());
+        for(Map.Entry<String, Integer> entry : map.entrySet()){
+            pq.offer(entry);
+            if(pq.size() > k) {
+                pq.poll();
+            }
+        }
+        
+        List<String> result = new ArrayList<>();
+        while(pq.size() > 0){
+            result.add(pq.poll().getKey());
+        }
+        Collections.reverse(result);
+        return result;
+    }
+}
