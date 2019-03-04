@@ -22,6 +22,7 @@ class Solution {
         
             rst[kk][0] = points[result.get(0)][0];
             rst[kk][1] = points[result.get(0)][1];
+            map.get(dst[kk]).remove(0);
             
         
         }
