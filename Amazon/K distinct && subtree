@@ -1,0 +1,70 @@
+第一题是K distinct characters. 长度是没有限制的。12/12 passed。
+我最终选择了用一个26个space的array去做。. From 1point 3acres bbs
+public class k_characters {
+    public Set<String>findSubstring(String S, int K){
+        // K distinct character without length limit
+        Set<String> res = new HashSet<>();
+        if(S == null || S.length() == 0 || K <= 0 || K > 26) return res;
+
+        int[] counter = new int[26];
+        for (int i = 0; i < S.length()-K+1; i++){
+            int dcount = 0;
+            Arrays.fill(counter, 0);
+            for(int j = i; j < S.length(); j++){
+                char c = S.charAt(j);
+                if(counter[c - 'a'] == 0){
+                    dcount++;
+                }
+                counter[c - 'a']++;
+                if(dcount == K){. From 1point 3acres bbs
+                    res.add(S.substring(i, j+1));
+                }
+            }
+        }
+        return res;
+    }
+
+
+
+第二题是Maximum average subtree. 7/7 passed。
+题目中是已经给了ComponentNode这个class的定义的，TreeFamily是需要自己定义的。
+public class Max_subtree_n_ary {
+    class TreeFamily {
+        ComponentNode root;
+        int sum;
+        int size;
+        public TreeFamily(ComponentNode node, int sum, int size) {
+            this.root = node;
+            this.sum = sum;
+            this.size = size;
+        }
+    }
+    private TreeFamily res = null;
+    public ComponentNode findsubtree(ComponentNode root) {
+        find(root);
+        return res.root;
+    }
+    private TreeFamily find(ComponentNode root){
+        if(root == null){
+            return new TreeFamily(null, 0, 0);
+        }
+        int sum = 0;
+        int size = 0;
+        ArrayList<TreeFamily> children = new ArrayList<>();
+        for(ComponentNode node : root.components){
+            children.add(find(node));
+        }
+        for(TreeFamily child: children){
+            sum += child.sum;
+            size += child.size;
+        }
+        TreeFamily cur = new TreeFamily(root, sum + root.val, size + 1);
+        if(res == null || cur.sum * res.size > cur.size * res.sum){
+            if(cur.size > 1){
+                res = cur;
+            }
+        }
+        return cur;
+    }
+
+}
