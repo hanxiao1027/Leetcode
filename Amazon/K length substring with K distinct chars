@@ -1,0 +1,58 @@
+public class Solution {
+    /**
+     * @param stringIn: The original string.
+     * @param K: The length of substrings.
+     * @return: return the count of substring of length K and exactly K distinct characters.
+     */
+    public int KSubstring(String stringIn, int K) {
+        // Write your code here
+        
+        if(stringIn.length() < K || K < 0 || K > 52) return 0;
+        Set<String> taken = new HashSet<>();
+        char[] c = stringIn.toCharArray();
+        int[] counts = new int[52];//0-25 a-z 26-51 A-Z
+        int counter = 0;
+        
+        for(int i = 0; i < K; i++){
+            char C = c[i];
+            if(C <= 'z' && C >= 'a'){
+                if(counts[C - 'a'] == 0) counter++;
+                counts[C - 'a']++;
+            }
+            else{
+                if(counts[C - 'A' + 26] == 0) counter++;
+                counts[C - 'A' + 26]++;
+            }
+        }
+        if(counter == K){
+            taken.add(stringIn.substring(0, K));
+        }
+        int start = 0;
+        int end = K - 1;
+        while(end < stringIn.length() - 1){
+            // - start
+            char C = c[start++];
+            if(C <= 'z' && C >= 'a'){
+                if(counts[C - 'a'] == 1) counter--;
+                counts[C - 'a']--;
+            }
+            else{
+                if(counts[C - 'A' + 26] == 1) counter--;
+                counts[C - 'A' + 26]--;
+            }
+            C = c[1 + end++];
+            if(C <= 'z' && C >= 'a'){
+                if(counts[C - 'a'] == 0) counter++;
+                counts[C - 'a']++;
+            }
+            else{
+                if(counts[C - 'A' + 26] == 0) counter++;
+                counts[C - 'A' + 26]++;
+            }
+            if(counter == K)            taken.add(stringIn.substring(start, end + 1));
+            //System.out.println(start + " " + counter);
+
+        }
+        return taken.size();
+    }
+}
