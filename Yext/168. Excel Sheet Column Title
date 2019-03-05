@@ -1,20 +1,17 @@
 class Solution {
     public String convertToTitle(int n) {
-        List<Character> list = new ArrayList<>();
+        String result = "";
         while(n != 0){
             int curr = n % 26;
             if(curr == 0) curr = 26;
             char c = (char)('A' + curr - 1);
-            list.add(c);
+            result = c + result;
             n--;
             n /= 26;
             
         }
-        Collections.reverse(list);
-        String result = "";
-        for(Character c : list){
-            result += c;
-        }
+        
+       
         return result;
         
     }
