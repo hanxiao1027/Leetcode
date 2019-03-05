@@ -1,12 +1,14 @@
 class Solution {
-    public String intToRoman(int num) {
-        List<Character> list= new ArrayList<>();
-        while(num != 0){
-            int curr = num % 26;
+    public String convertToTitle(int n) {
+        List<Character> list = new ArrayList<>();
+        while(n != 0){
+            int curr = n % 26;
             if(curr == 0) curr = 26;
             char c = (char)('A' + curr - 1);
             list.add(c);
-            num /= 26;
+            n--;
+            n /= 26;
+            
         }
         Collections.reverse(list);
         String result = "";
@@ -14,5 +16,6 @@ class Solution {
             result += c;
         }
         return result;
+        
     }
 }
