@@ -1,0 +1,42 @@
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> times = new Stack<Integer>();
+        Stack<String> words = new Stack<String>();
+        words.push("");
+        int i = 0;
+        char[] c = s.toCharArray();
+        while(i < c.length){
+            if(c[i] <= '9' && c[i] >= '0'){
+                int right = i;
+                while(c[right + 1] <= '9' && c[right + 1] >= '0'){
+                    right++;
+                }
+                int time = Integer.parseInt(s.substring(i, right + 1));
+                times.push(time);
+                i = right + 1;
+            }
+            else if(c[i] == '['){
+                words.push("");
+                i++;
+            }
+            else if(c[i] == ']'){
+                int time = times.pop();
+                String word = words.pop();
+                String toPush = words.pop();
+                for(int j = 0; j < time; j++){
+                    toPush += word;
+                }
+                words.push(toPush);
+                i++;
+            }
+            else{
+                words.push(words.pop() + c[i++]);
+            }
+        }
+        String result = "";
+        while(words.size() > 0){
+            result += words.pop();
+        }
+        return result;
+    }
+}
