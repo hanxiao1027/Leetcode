@@ -1,0 +1,29 @@
+class Solution {
+    public int reverse(int x) {
+        if(x == 0) return 0;
+        boolean isMinus = false;
+        if(x < 0){
+            x = -x;
+            isMinus = true;
+        }
+        
+        while(x % 10 == 0){
+            x /= 10;
+        }
+        Stack<Integer> stack = new Stack<>();
+        while(x != 0){
+            int num = x % 10;
+            stack.push(num);
+            x /= 10;
+        }
+        int level = 0;
+        int result = 0;
+        while(!stack.isEmpty()){
+            int num = stack.pop();
+            result += Math.pow(10, level++) * num;
+        }
+        if(isMinus) result = -result;
+        if(result == Integer.MAX_VALUE || result == Integer.MIN_VALUE || result == Integer.MIN_VALUE + 1) result = 0;
+        return result;
+    }
+}
