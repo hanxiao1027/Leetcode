@@ -1,0 +1,33 @@
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int sum = 0;
+        int count = 0;
+        for(int i = 0; i < nums.length; i++){
+            sum += nums[i];
+            set.add(sum);
+            List<Integer> list = map.getOrDefault(sum, new ArrayList<>());
+            list.add(i);
+            map.put(sum, list);
+        }
+        if(map.containsKey(k)){
+            count += map.get(k).size();
+        }
+        for(Integer i : set){
+            if(set.contains(i + k)){
+                List<Integer> list1 = map.get(i);
+                List<Integer> list2 = map.get(i + k);
+                for(Integer j : list2){
+                    for(Integer jj : list1){
+                        if(j > jj){
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+        
+    }
+}
