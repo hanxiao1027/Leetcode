@@ -1,0 +1,45 @@
+class Solution {
+    Random random;
+    Map<Integer, Integer> map;
+    int range;
+    List<Integer> list; 
+
+    public Solution(int N, int[] blacklist) {
+        range = N - blacklist.length;
+        random = new Random();
+        map = new HashMap<>();
+        list = new ArrayList<>();
+        int toMap = N - 1;
+        if(range != N){
+            for(int k : blacklist){
+                list.add(k);
+            }
+            for(Integer b : blacklist){
+                if(b < range){//need to map
+                    while(list.contains(toMap)){
+                        toMap--;
+                    }
+                    map.put(b, toMap--);
+                }
+            }
+            
+        }
+        
+        
+    }
+    
+    public int pick() {
+        int res = random.nextInt(range);
+        if(map.containsKey(res)){
+            return map.get(res);
+            
+        }
+        return res;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(N, blacklist);
+ * int param_1 = obj.pick();
+ */
