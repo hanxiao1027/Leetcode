@@ -1,0 +1,92 @@
+class Solution {
+    public List<String> removeInvalidParentheses(String s) {
+        char[] c = s.toCharArray();
+        int left = 0;
+        int right = 0;
+        for(int i = 0; i < c.length; i++){
+            if(c[i] == '('){
+                left++;
+            }
+            else if (c[i] == ')'){
+                if(left > 0){
+                    left--;
+                }
+                 else{
+                     right++;
+                 }
+            }
+        }
+        //left == amount of '(' which are incorrect, right == incorrect ')' 
+        for(int i = 0; i < c.length; i++){
+            if(c[i] == ')'){
+                right--;
+                c[i] = '?';
+            }
+            else break;
+        }
+        for(int i = c.length - 1; i >= 0; i--){
+            if(c[i] == '('){
+                left--;
+                c[i] = '?';
+            }
+            else break;
+        }
+        
+        Set<String> result = new HashSet<>();
+        
+        dfs(result, left, right, String.valueOf(c));
+        
+        return new ArrayList<>(result);
+        
+    }
+    private void dfs(Set<String> result, int left, int right, String s){
+        if(left == 0 && right == 0){
+            if(isGood(s.toCharArray())){
+                result.add(s.replace("?", ""));
+            }
+            return;
+        }
+        if(left > 0){
+            for(int i = 0; i < s.length(); i++){
+                char[] c = s.toCharArray();
+                if(i > 0 && c[i] == c[i - 1]) continue;
+                if(c[i] == '('){
+                    c[i] = '?';
+                    dfs(result, left - 1, right, String.valueOf(c));
+                }
+            }
+        }
+        if(right > 0){
+            for(int i = 0; i < s.length(); i++){
+                char[] c = s.toCharArray();
+                if(i > 0 && c[i] == c[i - 1]) continue;
+
+                if(c[i] == ')'){
+                    c[i] = '?';
+                    dfs(result, left, right - 1, String.valueOf(c));
+                }
+            }
+        }
+    }
+    private boolean isGood(char[] c){
+        int left = 0;
+        int right = 0;
+        for(int i = 0; i < c.length; i++){
+            if(c[i] == '('){
+                left++;
+            }
+            else if (c[i] == ')'){
+                if(left > 0){
+                    left--;
+                }
+                 else{
+                     right++;
+                 }
+            }
+        }
+        if(left == 0 && right == 0){
+            return true;
+        }
+        return false;
+    }
+}
