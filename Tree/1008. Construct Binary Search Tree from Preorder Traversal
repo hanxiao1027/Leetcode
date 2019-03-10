@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    class pair{
+        int left;
+        int right;
+        public pair(int l, int r){
+            this.left = l;
+            this.right = r;
+        }
+    }
+    public TreeNode bstFromPreorder(int[] preorder) {
+        TreeNode root = new TreeNode(preorder[0]);
+        pair small = divideSmall(0, preorder, 1, preorder.length - 1);
+        pair big = divideBig(0, preorder, 1, preorder.length - 1);
+        
+        root.left = helper(preorder, small.left, small.right);
+        root.right = helper(preorder, big.left, big.right);
+        return root;
+    }
+    private TreeNode helper(int[] t, int left, int right){
+        System.out.println(left);
+        if(left == right){
+            if(left == -1){
+                return null;
+            }
+            TreeNode root = new TreeNode(t[left]);
+            return root;
+        }
+        TreeNode root = new TreeNode(t[left]);
+        pair small = divideSmall(left, t, left + 1, right);
+        pair big = divideBig(left, t, left + 1, right);
+        
+        root.left = helper(t, small.left, small.right);
+        root.right = helper(t, big.left, big.right);
+        return root;
+        
+    }
+    private pair divideSmall(int root, int[] t, int start, int end){
+        if(start > end) return new pair(-1, -1);
+        int left = -1;
+        int right = -1;
+        if(t[start] < t[root]) left = start;
+        else return new pair(-1, -1);
+        for(int i = start; i <= end; i++){
+            if(t[i] < t[root]) right = i;
+            else break;
+        }
+        return new pair(left, right);
+        
+    }
+    private pair divideBig(int root, int[] t, int start, int end){
+        if(start > end) return new pair(-1, -1);
+        int left = -1;
+        int right = -1;
+        if(t[end] > t[root]) right = end;
+        else return new pair(-1, -1);
+        for(int i = end; i >= start; i--){
+            if(t[i] > t[root]) left = i;
+            else break;
+        }
+        return new pair(left, right);
+    }
+    
+}
