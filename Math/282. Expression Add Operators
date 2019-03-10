@@ -1,0 +1,28 @@
+class Solution {
+    public List<String> addOperators(String num, int target) {
+        List<String> list = new ArrayList<>();
+        dfs(num, "", target, 0, 0, 0, list);
+        return list;
+    }
+    private void dfs(String num, String curr, int target, int index, long value, long toMul, List<String> list){
+        if(index == num.length()){
+            if(value == target){
+                list.add(curr);
+            }
+            return;
+        }
+        for(int i = index; i < num.length(); i++){
+            long thisVal = Long.parseLong(num.substring(index, i + 1));//choose different substring as value of integer
+            if(i != index && num.charAt(index) == '0') break;
+            if(index == 0){
+                dfs(num, curr + thisVal, target, i + 1, thisVal, thisVal, list);
+                //for the first number, we can only use '+'
+                continue;
+            }
+            dfs(num, curr + "+" + thisVal, target, i + 1, value + thisVal, thisVal, list);
+            dfs(num, curr + "-" + thisVal, target, i + 1, value - thisVal, -thisVal, list);
+            dfs(num, curr + "*" + thisVal, target, i + 1, value - toMul + toMul * thisVal, toMul * thisVal, list);
+            
+        }
+    }
+}
