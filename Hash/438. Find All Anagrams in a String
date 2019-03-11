@@ -1,0 +1,55 @@
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        int[] chars = new int[26];
+        List<Integer> res = new ArrayList<>();
+        char[] S = s.toCharArray();
+        Map<Character, Integer> map = new HashMap<>();
+        for(char c : p.toCharArray()){
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        if(s == null || p == null || s.length() < p.length()) return res;
+        int target = map.size();
+        int equals = 0;
+        for(int i = 0; i < p.length(); i++){
+            char c = S[i];
+            chars[c - 'a']++;
+            if(chars[c - 'a'] == map.getOrDefault(c, -5)) equals++;
+            if(chars[c - 'a'] == map.getOrDefault(c, -5) + 1) equals--;
+
+        }
+        
+        if(target == equals){
+                res.add(0);
+        }
+        int left = 0;
+        int right = p.length() - 1;
+        while(right < s.length() - 1){
+            char l = S[left];
+            char r = S[right + 1];
+            if(chars[l - 'a'] == map.getOrDefault(l, -5)){
+                equals--;
+            }
+            else if(chars[l - 'a'] == map.getOrDefault(l, -5) + 1){
+                equals++;
+            }
+            chars[l - 'a']--;
+            if(chars[r - 'a'] == map.getOrDefault(r, -5)){
+                equals--;
+            }
+            else if(chars[r - 'a'] == map.getOrDefault(r, -5) - 1){
+                equals++;
+            }
+            chars[r - 'a']++;
+            left++;
+            right++;
+            
+            
+            if(target == equals){
+                res.add(left);
+            }
+            
+            
+        }
+        return res;
+    }
+}
