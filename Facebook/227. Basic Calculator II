@@ -1,0 +1,40 @@
+class Solution {
+    public int calculate(String s) {
+        s = s.replace(" ", "");
+        char[] c = s.toCharArray();
+        int result = 0;
+        int lastDig = 0;
+        char lastOp = '+';
+        for(int i = 0; i < c.length;){
+            if(c[i] <='9' && c[i] >= '0'){
+                int digitEnd = i;
+                while(digitEnd < c.length - 1 && c[digitEnd + 1] >= '0' && c[digitEnd + 1] <= '9'){
+                    digitEnd++;
+                }
+                int digit = Integer.parseInt(s.substring(i, digitEnd + 1));
+                if(lastOp == '+'){
+                    result += digit;
+                    lastDig = digit;
+                }
+                else if(lastOp == '-'){
+                    result -= digit;
+                    lastDig = -digit;
+                }
+                else if(lastOp == '*'){
+                    result = result - lastDig + lastDig * digit;
+                    lastDig *= digit;
+                }
+                else if(lastOp == '/'){
+                    result = result - lastDig + lastDig / digit;
+                    lastDig /= digit;
+                }
+                i = digitEnd + 1;
+            }
+            else{
+                lastOp = c[i];
+                i++;
+            }
+        }
+        return result;
+    }
+}
