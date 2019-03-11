@@ -1,0 +1,18 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] chars = new int[26];
+        for(char c : tasks){//count the occurance
+            chars[c - 'A']++;
+        }
+        Arrays.sort(chars);
+        int i = 25;
+        for(; i > 0; ){
+            if(chars[i - 1] == chars[25]){
+                i--;//find the most frequent chars (from i to 25)
+            }
+            else break;
+        }
+        return Math.max(tasks.length, (n + 1) * (chars[25] - 1) + 25 - i + 1);
+        
+    }
+}
