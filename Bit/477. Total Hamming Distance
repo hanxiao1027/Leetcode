@@ -1,0 +1,16 @@
+class Solution {
+    public int totalHammingDistance(int[] nums) {
+        //count bit by bit
+        int total = 0;
+        int n = nums.length;
+        for(int i = 0; i < 32; i++){//32 bit
+            int thisBit = 0;//total count of 1 on this bit
+            for(int num : nums){
+                int curr = (num >> i) & 1;//num's ith bit
+                thisBit += curr;
+            }
+            total += thisBit * (n - thisBit);
+        }
+        return total;
+    }
+}
