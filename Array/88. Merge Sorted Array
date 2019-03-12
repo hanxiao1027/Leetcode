@@ -1,3 +1,32 @@
+//No EXTRA SPACE
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int mm = 1;
+        int nn = 1;
+        while(mm <= m && nn <= n){
+            nums1[m + n  - mm - nn + 1] = Math.max(nums1[m  - mm], nums2[n  - nn]);
+            if(nums1[m  - mm] >= nums2[n - nn]){
+                mm++;
+            }
+            else nn++;
+        }
+        if(mm <= m){
+            return;
+        }
+        if(nn <= n){
+            for(int i = 0; i < n - nn + 1; i++){
+                nums1[i] = nums2[i];
+            }
+        }
+        return;
+    }
+}
+
+
+
+//////////
+
+
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int[] result = new int[m + n];
