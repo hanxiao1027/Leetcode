@@ -1,0 +1,47 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public int minMeetingRooms(Interval[] intervals) {
+        int[] starts = new int[intervals.length];
+        int[] ends = new int[intervals.length];
+        for(int i = 0; i < intervals.length; i++){
+            starts[i] = intervals[i].start;
+            ends[i] = intervals[i].end;
+        }
+        Arrays.sort(starts);
+        Arrays.sort(ends);
+        int i = 0, j = 0;//i: starts j:ends
+        int max = 0;
+        int curr;
+        while(i < starts.length){
+            curr = 0;
+            int left = starts[i];
+            int right = ends[i];
+            while(i < starts.length){
+                if(starts[i] >= right){//end
+                    j = i;
+                    break;
+                }
+                 System.out.println(i + "new" + curr);
+                if(i < starts.length && starts[i] < ends[j]){
+                    curr++;
+                    max = Math.max(curr, max);
+                    right = ends[i];
+                    i++;
+                }
+                else{
+                    curr--;
+                    j++;
+                }
+            }
+        }
+        return max;
+    }
+}
