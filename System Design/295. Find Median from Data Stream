@@ -1,0 +1,58 @@
+class MedianFinder {
+    int count;
+    PriorityQueue<Integer> high;
+    PriorityQueue<Integer> low;
+
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        count = 0;
+        low = new PriorityQueue<Integer>((l1, l2) -> l2 - l1);
+        //下半部分用最大堆 返回最大值
+        //count % 2 == 1 时 return low.peek()
+        high = new PriorityQueue<Integer>((l1, l2) -> l1 - l2);
+        //上半部分用最小堆 返回最小值
+    }
+    
+    public void addNum(int num) {
+        if(low.size() == 0){//empty
+            low.offer(num);
+            count++;
+            return;
+        }
+        if(num >= low.peek()){
+            high.offer(num);
+        }
+        else{
+            low.offer(num);
+        }
+        balance();
+        count++;
+        
+        
+    }
+    private void balance(){
+        if(high.size() >= low.size() + 1){
+            low.offer(high.poll());
+        }
+        else if(low.size() - 1 > high.size()){
+            high.offer(low.poll());
+        }
+        
+    }
+    
+    public double findMedian() {
+        if(count % 2 == 1){
+            return low.peek() * 1.0;
+        }
+        else{
+            return (high.peek() + low.peek()) / 2.0;
+        }
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
