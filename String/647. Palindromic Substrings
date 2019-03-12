@@ -1,0 +1,22 @@
+class Solution {
+    public int countSubstrings(String s) {
+        int count = 0;
+        char[] c = s.toCharArray();
+        for(int i = 0; i < c.length; i++){
+            int leftCenter = i;
+            int rightCenter = i;
+            count++;//length == 1
+            while(leftCenter >= 0 && rightCenter + 1 < c.length && c[leftCenter] == c[rightCenter + 1]){
+                count++;
+                rightCenter++;
+            }
+            while(leftCenter - 1 >= 0 && rightCenter + 1 < c.length && c[leftCenter - 1] == c[rightCenter + 1]){
+                leftCenter--;
+                rightCenter++;
+                count++;
+            }
+            //System.out.println(i + " " + count);
+        }
+        return count;
+    }
+}
