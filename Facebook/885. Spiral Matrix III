@@ -1,0 +1,49 @@
+class Solution {
+    public int[][] spiralMatrixIII(int R, int C, int r0, int c0) {
+        int[][] result = new int[R * C][2];
+        int count = 0;
+        int i = r0;
+        int j = c0;
+        int dir = 4;
+        int move = 0;
+        int curr = 0;
+        while(count < R * C){
+            //System.out.println(i + " " + j);
+            if(i >= 0 && j >= 0 && i < R && j < C){
+                result[count][0] = i;
+                result[count++][1] = j;
+            }
+            curr++;
+            if(curr >= move){
+                if(dir == 1 || dir == 3){
+                    dir++;
+                }
+                else if(dir == 2){
+                    dir++;
+                    move++;
+                }
+                else if(dir == 4){
+                    dir = 1;
+                    move++;
+                }
+                curr = 0;
+            }
+            //System.out.println(dir);
+            
+            if(dir == 1){
+                j++;
+            }
+            else if (dir == 2){
+                i++;
+            }
+            else if (dir == 3){
+                j--;
+            }
+            else if (dir == 4){
+                i--;
+            }
+        }
+        return result;
+        
+    }
+}
