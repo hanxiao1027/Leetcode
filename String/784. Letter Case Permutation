@@ -1,0 +1,23 @@
+class Solution {
+    public List<String> letterCasePermutation(String S) {
+        List<String> result = new ArrayList<>();
+        int len = S.length();
+        dfs(result, S, len, 0, "");
+        return result;
+    }
+    private void dfs(List<String> result, String s, int len, int i, String curr){
+        if(i == len){
+            result.add(curr);
+            return;
+        }
+        char c = s.charAt(i);
+        if('0' <= c && '9' >= c){
+            dfs(result, s, len, i + 1, curr + c);
+        }
+        else{
+            dfs(result, s, len, i + 1, curr + Character.toLowerCase(c));
+            dfs(result, s, len, i + 1, curr + Character.toUpperCase(c));
+            
+        }
+    }
+}
