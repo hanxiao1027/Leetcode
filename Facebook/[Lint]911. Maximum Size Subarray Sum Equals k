@@ -1,0 +1,43 @@
+public class Solution {
+    /**
+     * @param nums: an array
+     * @param k: a target value
+     * @return: the maximum length of a subarray that sums to k
+     */
+    public int maxSubArrayLen(int[] nums, int k) {
+        // Write your code here
+        if(nums == null || nums.length == 0) return 0;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int sum = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            sum += nums[i];
+            List<Integer> toPut = map.getOrDefault(sum, new ArrayList<>());
+            toPut.add(i);
+            map.put(sum, toPut);
+            set.add(sum);
+        }
+        int max = 0;
+        if(set.contains(k)){
+            List<Integer> list = map.get(k);
+            for(Integer i : list){
+                max = Math.max(i + 1, max);
+            }
+        }
+        for(Integer low : set){
+            if(set.contains(low + k)){
+                List<Integer> loList = map.get(low);
+                List<Integer> hiList = map.get(low + k);
+                for(Integer lo : loList){
+                    for(Integer hi : hiList){
+                        if(hi - lo > max){
+                            max = hi - lo;
+                        }
+                    }
+                }
+            }
+            
+        }
+        return max;
+    }
+}
