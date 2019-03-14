@@ -1,0 +1,60 @@
+class Solution {
+    public boolean isNumber(String s) {
+        int left = 0, right = s.length() - 1;
+        while(left < s.length() && s.charAt(left) == ' '){
+            left++;
+        }
+        while(right >= 0 && s.charAt(right) == ' '){
+            right--;
+        }
+        if(right < left) return false;
+        s = s.substring(left, right + 1);
+        
+        String nums[] = s.split("e");
+        if(s.indexOf('e') == -1){
+            return isNum(s, true);
+        }
+        int count = 0;
+        int position = 0;
+        while(position != -1){
+            count++;
+            position = s.indexOf('e', position + 1);
+        }
+        if(count > 2) return false;
+        
+        if(nums.length <= 1 || nums.length > 2) return false;
+        
+        if(!isNum(nums[0], true)) return false;
+        if(!isNum(nums[1], false)) return false;
+        
+        return true;
+    }
+    private boolean isNum(String s, boolean isFirst){
+        int plusMinus = 0;
+        int dots = 0;
+        int digits = 0;
+        for(char c : s.toCharArray()){
+            if('0' <= c && c <= '9'){
+                digits++;
+                continue;
+            }
+            else if( c == '-'){
+                if(dots > 0 || digits > 0) return false;
+                plusMinus++;
+            }
+            else if(c == '.'){
+                if(!isFirst) return false;
+                dots++;
+            }
+            else if(c == '+'){
+                if(plusMinus + dots + digits == 0){
+                    continue;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        return (plusMinus <= 1 && dots <= 1 && digits > 0);
+    }
+    
+}
