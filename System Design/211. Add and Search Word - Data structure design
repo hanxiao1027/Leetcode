@@ -1,0 +1,66 @@
+class WordDictionary {
+    Node root;
+
+    /** Initialize your data structure here. */
+    public WordDictionary() {
+        root = new Node();
+    }
+    
+    /** Adds a word into the data structure. */
+    public void addWord(String word) {
+        build(root, word.toCharArray(), 0);
+    }
+    private void build(Node root, char[] C, int i){
+        char c = C[i];
+        if(root.children[c - 'a'] == null){
+            root.children[c - 'a'] = new Node();
+        }
+        if(i + 1 == C.length){//last char
+            root.children[c - 'a'].isLeaf = true;
+            return;
+        }
+        build(root.children[c - 'a'], C, i + 1);
+    }
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    public boolean search(String word) {
+        return searcher(root, word, 0);
+    }
+    private boolean searcher(Node node, String word, int i){
+        if(i == word.length()){
+            if(node.isLeaf) return true;
+            else return false;
+        }
+        char c = word.charAt(i);
+        if(c == '.'){
+            for(Node temp : node.children){
+                if(temp == null) continue;
+                if(searcher(temp, word, i + 1) == true){
+                    return true;
+                }
+            }
+            return false;
+            
+        }
+        else{//c == a-z
+            if(node.children[c - 'a'] == null){
+                return false;
+            }
+            return searcher(node.children[c - 'a'], word, i + 1);
+        }
+    }
+    class Node{
+        Node[] children;
+        boolean isLeaf;
+        public Node(){
+            children = new Node[26];
+            isLeaf = false;
+        }
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
