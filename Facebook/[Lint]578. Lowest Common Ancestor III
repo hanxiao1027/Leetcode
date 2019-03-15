@@ -1,0 +1,64 @@
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+
+
+public class Solution {
+    /*
+     * @param root: The root of the binary tree.
+     * @param A: A TreeNode
+     * @param B: A TreeNode
+     * @return: Return the LCA of the two nodes.
+     */
+     TreeNode result;
+     boolean isFound;
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode A, TreeNode B) {
+        // write your code here
+        result = null;
+        isFound = false;
+        dfs(root, A, B);
+        return result;
+    }
+    
+    private int dfs(TreeNode node, TreeNode A, TreeNode B){
+        if(isFound) return -1;
+        if(node == null) return -1;
+        int left = dfs(node.left, A, B);
+        int right = dfs(node.right, A, B);
+        if(left == 1 && right == 2){
+            result = node;
+            isFound = true;
+            return -1;
+        }
+        if(left == 1 || right == 1){
+            if(node == B){
+                result = node;
+                isFound = true;
+                return -1;
+            }
+            return 1;
+        }
+        if(left == 2 || right == 2){
+            if(node == A){
+                result = node;
+                isFound = true;
+                return -1;
+            }
+            return 2;
+        }
+        // 都是-1
+        if(node == A) return 1;
+        if(node == B) return 2;
+        return -1;
+        
+        
+    }
+}
