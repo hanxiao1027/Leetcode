@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private int ans;
+    public int pathSum(TreeNode root, int sum) {
+        ans = 0;
+        int depth = getDepth(root);
+        int[] vals = new int[depth];
+        dfs(root, sum, 0, depth, vals);
+        //dfs(root, sum, 0, depth, new ArrayList<>());
+        return ans;
+        
+    }
+    private void dfs(TreeNode node, int target, int currLevel, int maxLevel, int[] vals){
+        if(node == null) return;
+        vals[currLevel] = node.val;
+        int sum = 0;
+        for(int i = currLevel; i > -1; i--){
+            sum += vals[i];
+            if(sum == target) ans++;
+        }
+        dfs(node.left, target, currLevel + 1, maxLevel, vals);
+        dfs(node.right, target, currLevel + 1, maxLevel, vals);
+    }
+    
+    /*
+    private void dfs(TreeNode node, int target, int currLevel, int maxLevel, List<Integer> list){
+        if(node == null) return;
+        list.add(node.val);
+        int sum = 0;
+        for(int i = list.size() - 1; i > -1; i--){
+            sum += list.get(i);
+            if(sum == target){
+                ans++;
+            }
+        }
+        dfs(node.left, target, currLevel + 1, maxLevel, new ArrayList<>(list));
+        dfs(node.right, target, currLevel + 1, maxLevel, new ArrayList<>(list));
+    }*/
+    private int getDepth(TreeNode node){
+        if(node == null) return 0;
+        return Math.max(getDepth(node.left), getDepth(node.right)) + 1;
+    }
+}
