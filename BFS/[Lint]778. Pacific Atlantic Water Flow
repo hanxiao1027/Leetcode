@@ -1,0 +1,51 @@
+public class Solution {
+    /**
+     * @param matrix: the given matrix
+     * @return: The list of grid coordinates
+     */
+    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
+        // write your code here
+        List<List<Integer>> res = new ArrayList<>();
+        if(matrix == null || matrix.length == 0) return res;
+        int row = matrix.length;
+        int col = matrix[0].length;
+        boolean[][] isAtlantic = new boolean[row][col];
+        boolean[][] isPacific = new boolean[row][col];
+        for(int i = 0; i < row; i++){
+            bfs(matrix, i, 0, Integer.MIN_VALUE, row, col, isAtlantic);
+        }
+        for(int j = 0; j < col; j++){
+            bfs(matrix, 0, j, Integer.MIN_VALUE, row, col, isAtlantic);
+        }
+        for(int i = 0; i < row; i++){
+            bfs(matrix, i, col - 1, Integer.MIN_VALUE, row, col, isPacific);
+        }
+        for(int j = 0; j < col; j++){
+            bfs(matrix, row - 1, j, Integer.MIN_VALUE, row, col, isPacific);
+        }
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(isPacific[i][j] && isAtlantic[i][j]){
+                    res.add(new ArrayList<>(Arrays.asList(i, j)));
+                }
+            }
+        }
+        return res;
+        
+    }
+    
+    private void bfs(int[][] matrix, int i, int j, int value, int row, int col, boolean[][] isVisited){
+        if(i < 0 || j < 0 || i >= row || j >= col || isVisited[i][j] || matrix[i][j] < value){
+            return;
+        }
+        isVisited[i][j] = true;
+       
+        
+        bfs(matrix, i + 1, j, matrix[i][j], row, col, isVisited);
+        bfs(matrix, i - 1, j, matrix[i][j], row, col, isVisited);
+        bfs(matrix, i, j + 1, matrix[i][j], row, col, isVisited);
+        bfs(matrix, i, j - 1, matrix[i][j], row, col, isVisited);
+        
+        
+    }
+}
