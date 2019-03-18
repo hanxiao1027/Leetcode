@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        Stack<TreeNode> stack = new Stack<>();
+        if(root == null) return null;
+        TreeNode successor = null;
+        TreeNode curr = root;
+        int val = p.val;
+        while(true){
+            if(curr.val == val) break;
+            else if(val > curr.val){
+                curr = curr.right;
+            }
+            else{
+                if(successor == null){
+                    successor = curr;
+                }
+                else{
+                    if(successor.val > curr.val){
+                        successor = curr;
+                    }
+                }
+                curr = curr.left;
+                
+            }
+        }
+        
+        if(p.right != null){
+            curr = p.right;
+            while(curr.left != null){
+                curr = curr.left;
+            }
+            if(successor == null || successor.val > curr.val){
+                        successor = curr;
+            }
+            
+        }
+        return successor;
+    }
+}
