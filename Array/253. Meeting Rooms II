@@ -1,3 +1,45 @@
+//浩南哥算法
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    class pair{
+        int time;
+        int value;
+        public pair(int time, int value){
+            this.time = time;
+            this.value = value;
+        }
+    }
+    public int minMeetingRooms(Interval[] intervals) {
+        List<pair> list = new ArrayList<>();
+        for(Interval i : intervals){
+            list.add(new pair(i.start, 1));
+            list.add(new pair(i.end, -1));
+        }
+        Collections.sort(list, (l1,l2) ->{
+            if(l1.time == l2.time){
+                return l1.value - l2.value;
+            }
+            return l1.time - l2.time;
+        }); 
+        int max = 0;
+        int curr = 0;
+        for(pair p : list){
+            curr += p.value;
+            max = Math.max(curr, max);
+        }
+        return max;
+    }
+}
+
+
 /**
  * Definition for an interval.
  * public class Interval {
