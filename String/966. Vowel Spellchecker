@@ -1,0 +1,37 @@
+class Solution {
+    List<Character> list;
+    public String[] spellchecker(String[] wordlist, String[] queries) {
+        Set<String> set = new HashSet<>(new ArrayList<>(Arrays.asList(wordlist)));
+        list = new ArrayList<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
+        Map<String, String> capMap = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
+        for(String word : wordlist){
+            if(!map.containsKey(transform(word)))
+            map.put(transform(word), word);
+            if(!capMap.containsKey(word.toLowerCase()))
+            capMap.put(word.toLowerCase(), word);
+        }
+        int count = 0;
+        String[] ans = new String[queries.length];
+        for(String query : queries){
+            if(set.contains(query)){
+                ans[count++] = query;
+            }
+            else if (capMap.containsKey(query.toLowerCase())){
+                ans[count++] = capMap.get(query.toLowerCase());
+            }
+            else ans[count++] = map.getOrDefault(transform(query), "");
+            
+        }
+        return ans;
+    }
+    private String transform(String s){
+        char[] c = s.toLowerCase().toCharArray();
+        for(int i = 0; i < c.length; i++){
+            if(list.contains(c[i])){
+                c[i] = 'a';
+            }
+        }
+        return String.valueOf(c);
+    }
+}
