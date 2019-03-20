@@ -1,0 +1,23 @@
+class Solution {
+    public int triangleNumber(int[] nums) {
+        if(nums == null || nums.length < 3) return 0;
+        Arrays.sort(nums);
+        int count = 0;
+        int len = nums.length;
+        int k = len - 1;
+        for(;k >= 2; k--){
+            int left = 0;
+            int right = k - 1;
+            while(left < right){
+                if(nums[left] + nums[right] > nums[k]){
+                    count += (right - left);
+                    right--;
+                }
+                else{
+                    left++;
+                }
+            }
+        }
+        return count;
+    }
+}
