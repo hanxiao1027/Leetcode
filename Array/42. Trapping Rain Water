@@ -1,0 +1,25 @@
+class Solution {
+    public int trap(int[] height) {
+        int max = 0;
+        int maxIndex = 0;
+        for(int i = 0; i < height.length; i++){
+            if(max < height[i]){
+                max = height[i];
+                maxIndex = i;
+            }
+        }
+        int currMax = 0;
+        int result = 0;
+        for(int i = 0; i < maxIndex; i++){
+            currMax = Math.max(currMax, height[i]);
+            result += (currMax - height[i]);
+        }
+        currMax = 0;
+        for(int i = height.length - 1; i > maxIndex; i--){
+            currMax = Math.max(currMax, height[i]);
+            result += (currMax - height[i]);
+        }
+        return result;
+        
+    }
+}
