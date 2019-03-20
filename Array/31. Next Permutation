@@ -1,0 +1,49 @@
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int target = -1;
+        if(nums.length == 2){
+            if(nums[1] > nums[0]){
+                int temp = nums[1];
+                nums[1] = nums[0];
+                nums[0] = temp;
+            }
+            return;
+        }
+        for(int i = nums.length -2; i >= 0; i--){
+            System.out.println(target);
+            if(nums[i] < nums[i + 1]){
+                target = i;
+                System.out.println(target);
+                break;
+            }
+        }
+        if(target == -1){
+            int left = 0, right = nums.length - 1;
+        while(left < right){
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+            return;
+        }
+        for(int i = nums.length - 1; i > target; i--){
+            if(nums[i] > nums[target]){
+                int temp = nums[target];
+                nums[target] = nums[i];
+                nums[i] = temp;
+                break;
+            }
+        }
+        int left = target + 1, right = nums.length - 1;
+        while(left < right){
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+        
+    }
+}
