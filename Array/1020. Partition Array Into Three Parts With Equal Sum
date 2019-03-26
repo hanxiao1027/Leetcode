@@ -1,0 +1,21 @@
+class Solution {
+    public boolean canThreePartsEqualSum(int[] A) {
+        int sum = 0;
+        for(int i : A){
+            sum += i;
+        }
+        if(sum % 3 != 0) return false;
+        sum /= 3;
+        int count = 0;
+        int curr = 0;
+        for(int i : A){
+            curr += i;
+            if(curr == sum){
+                curr = 0;
+                count ++;
+            }
+        }
+        return count == 3;
+        
+    }
+}
