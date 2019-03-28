@@ -1,0 +1,20 @@
+class Solution {
+    public int numUniqueEmails(String[] emails) {
+        Set<String> set = new HashSet<>();
+        for(String mail : emails){
+            set.add(helper(mail));
+        }
+        return set.size();
+    }
+    private String helper(String email){
+        String local = email.substring(0, email.indexOf('@'));
+        String domain = email.substring(email.indexOf('@'));
+        local = local.replace(".", "");
+        if(local.indexOf('+') != -1){
+            local = local.substring(0, local.indexOf('+'));
+        }
+        //System.out.println(local + domain);
+        return local + domain;
+        
+    }
+}
