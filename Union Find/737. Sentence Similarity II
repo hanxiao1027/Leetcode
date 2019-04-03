@@ -1,0 +1,41 @@
+```java
+class Solution {
+    public boolean areSentencesSimilarTwo(String[] words1, String[] words2, String[][] pairs) {
+        if(words1.length != words2.length) return false;
+        Map<String, String> map = new HashMap<>();
+        for(String[] pair : pairs){
+            //Arrays.sort(pair);
+            String str1 = pair[0];
+            String str2 = pair[1];
+            if(!map.containsKey(str1)){
+                map.put(str1, str1);
+            }
+            if(!map.containsKey(str2)){
+                map.put(str2, str2);
+            }
+            String root1 = findRoot(str1, map);
+            String root2 = findRoot(str2, map);
+            map.put(root1, root2);
+            System.out.println(str2 + "map" + root1);
+        }
+        for(int i = 0; i < words1.length; i++){
+            if(!findRoot(words1[i], map).equals(findRoot(words2[i], map))){
+               // System.out.println(words1[i] + " " + words2[i]);
+                return false;
+            }
+        }
+        return true;
+        
+    }
+    private String findRoot(String str, Map<String, String> map){
+        if(!map.containsKey(str)) return str;
+        String root = map.get(str);
+        if(root.equals(str)){
+            return str;
+        }
+        root = findRoot(root, map);
+        map.put(str, root);
+        return root;
+    }
+}
+```
